@@ -1,0 +1,25 @@
+@import '../css/reset.css';
+@import './var';
+
+body {
+  background: #111418;
+  
+  &, a {
+    color: #ffffff;
+  }
+}
+
+body, html {
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+.container {
+  height: 100%;
+  padding: 50px 0;
+  text-align: left;
+  box-sizing: border-box;
+}

@@ -1,0 +1,18 @@
+body {
+  background: #111418;
+  color: #ffffff;
+}
+body a {
+  color: #ffffff;
+}
+img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+.main {
+  margin: 80px 0 50px;
+}
+
+p {
+  text-align: left;
+}
