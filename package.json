@@ -1,0 +1,8 @@
+{
+  "name": "vue-movie",
+  "version": "1.0.0",
+  "description": "a movie app by using douban api",
+  "main": "index.js",
+  "author": "vdorchan <vdorchan@gmail.com>",
+  "license": "MIT"
+}
