@@ -14,7 +14,9 @@ import brands from '@fortawesome/fontawesome-free-brands'
 import solid from '@fortawesome/fontawesome-free-solid'
 import regular from '@fortawesome/fontawesome-free-regular'
 import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
+
 import Loading from './directives/loading'
+import Scroll from './directives/scroll'
 
 import 'swiper/dist/css/swiper.css'
 import './assets/sass/common.scss'
@@ -23,17 +25,23 @@ Vue.use(VueAxios, axios)
 Vue.use(vueAwesomeSwiper)
 
 Vue.use(Loading)
+Vue.use(Scroll)
 
-Vue.directive('scroll', {
-  inserted: function (el, binding) {
-    let f = function (evt) {
-      if (binding.value(evt, el)) {
-        window.removeEventListener('scroll', f)
-      }
-    }
-    window.addEventListener('scroll', f)
-  }
-})
+// Vue.directive('scroll', {
+//   bind: function () {
+//     console.log('bbbb');
+//   },
+//   inserted(el, binding) {
+//     console.log(3);
+//     let f = function (evt) {
+//       console.log(222);
+//       if (binding.value(evt, el)) {
+//         window.removeEventListener('scroll', f)
+//       }
+//     }
+//     window.addEventListener('scroll', f)
+//   }
+// })
 
 fontawesome.library.add(brands, solid, regular, faSpinner)
 

@@ -17,7 +17,8 @@ import SearchBar from './SearchBar'
 export default {
   data() {
     return {
-      show: false
+      show: false,
+      movies: []
     }
   },
   props: [
@@ -57,7 +58,7 @@ export default {
   text-align: center;
   font-weight: bold;
   background: rgba(22, 23, 27, 0.95);
-  z-index: 9;
+  z-index: 99;
   &-sub {
     display: flex;
     justify-content: center;

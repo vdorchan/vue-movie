@@ -9,6 +9,12 @@
         <swiper-slide>
           <movie-rank start=0 count=5 type="us_box">北美票房榜</movie-rank>
         </swiper-slide>
+        <swiper-slide>
+          <movie-rank start=0 count=5 type="weekly">口碑榜</movie-rank>
+        </swiper-slide>
+        <swiper-slide>
+          <movie-rank start=0 count=5 type="new_movies">新片榜</movie-rank>
+        </swiper-slide>
       </swiper>
     </section>
     <section class="movies-container">
@@ -18,7 +24,6 @@
       <movie-list-row tag="经典"></movie-list-row>
       <movie-list-row tag="经典"></movie-list-row>
     </section>
-    <bottom-nav></bottom-nav>
   </div>
 </template>
 

@@ -2,7 +2,7 @@
   <footer class="">
     <router-link to="/"><font-awesome-icon :icon="['far', 'calendar']" />热映</router-link>
     <router-link to="/movies"><font-awesome-icon :icon="['fas', 'film']" />电影</router-link>
-    <router-link to="/rank"><font-awesome-icon :icon="['far', 'user']" />我</router-link>
+    <router-link to="/me"><font-awesome-icon :icon="['far', 'user']" />我</router-link>
   </footer>
 </template>
 

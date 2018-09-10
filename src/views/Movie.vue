@@ -3,7 +3,7 @@
     <div class="movie" v-if="movie">
       <top-bar :class="['gradient', {'show-title': showTitle}]" :page-title="showTitle?movie.title:'电影'" hideSearch=true showBack=true></top-bar>
       <section class="movie-info">
-        <img class="movie-poster" :src="movie.images.large" alt="">
+        <img class="movie-poster" :src="movie.bigPoster" alt="">
         <div class="movie-info-inner">
           <p><i class="c-red">Movie</i> {{ movie.year }}</p>
           <h2>{{ movie.title }}</h2>
@@ -13,8 +13,8 @@
           <p>{{ movie.casts.map(c => c.name).join('/') }}</p>
           <div class="movie-rate-wrapper">
             <div>
-              <p>{{ movie.reviews_count }} 人看过了</p>
-              <p>{{ movie.comments_count }} 条评论</p>
+              <p><font-awesome-icon class="movie-collect" :icon="['far', 'heart']" @click="addMovie" v-show="!isFavorite" /><font-awesome-icon class="movie-collect is-favorite" :icon="['fas', 'heart']" @click="removeMovie" v-show="isFavorite" />{{ movie.collect_count }} 人收藏了该电影 </p>
+              <p><font-awesome-icon class="movie-comment" :icon="['far', 'comment-dots']" />{{ movie.comments_count }} 条评论</p>
             </div>
             <div class="movie-rate">
               <i class="c-red">{{ movie.rating.average }}</i>/10
@@ -40,6 +40,13 @@ import TopBar from '../components/TopBar'
 import CelebritiesList from '../components/CelebritiesList'
 import MovieRecommandList from '../components/MovieRecommandList'
 import {getMovieById} from '../store/api'
+import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
+
+import {
+  ADD_TO_FAVORITES,
+  REMOVE_FROM_FAVORITES
+} from '../store/mutation-types.js'
+
 
 // const TopBar = () => ({
 //   component: import('../components/TopBar.vue'),
@@ -56,7 +63,7 @@ export default {
     return {
       movie: null,
       recommandMovies: null,
-      showTitle: false,
+      showTitle: false
     }
   },
   created() {
@@ -72,7 +79,7 @@ export default {
       this.movie = null
       const {data: movie} = await getMovieById(this.$route.params.id)
       this.movie = movie
-      this.$nextTick(this.bindScroll)
+      // this.$nextTick(this.bindScroll)
     },
     handleScroll(evt, el) {
       console.log(el.scrollTop);
@@ -91,15 +98,35 @@ export default {
       }
     },
     bindScroll() {
+      console.log(document.querySelector('h2'));
       const absY = this.getAbsPoint(document.querySelector('h2')).y
       this.showTitle = window.scrollY > absY
       window.onscroll = () => this.showTitle = window.scrollY > absY
+    },
+    addMovie() {
+      // this.$store.commit(ADD_TO_FAVORITES, {movie: this.movie})
+      this.$store.dispatch('addToFavorites', {movie: this.movie})
+    },
+    removeMovie() {
+      // this.$store.commit(REMOVE_FROM_FAVORITES, {movieId: this.movie.id})
+      this.$store.dispatch('removeFromFavorites', {movieId: this.movie.id})
     }
+    
   },
   components: {
     TopBar,
     CelebritiesList,
-    MovieRecommandList
+    MovieRecommandList,
+    fontAwesomeIcon
+  },
+  computed: {
+    isFavorite() {
+      try {
+        return this.$store.state.userInfo.favorites.find(movie => movie.id === this.movie.id)
+      } catch (err) {
+        return false
+      }
+    }
   }
 }
 </script>
@@ -109,6 +136,7 @@ export default {
 
 .container {
   padding-top: 0;
+  padding-bottom: 50px;
 }
 .header {
   &.gradient {
@@ -132,6 +160,7 @@ export default {
     font-size: 12px;
     overflow: hidden;
     text-align: left;
+    height: 575px;
 
     &::after {
       content: '';
@@ -179,6 +208,11 @@ export default {
       line-height: 2;
       font-weight: bold;
 
+      p {
+        display: flex;
+        align-items: center;
+      }
+
       &::before {
         content: '';
         display: block;
@@ -214,6 +248,16 @@ export default {
 
     p {
       padding: 10px 10px 0;
+    }
+  }
+  &-collect,
+  &-comment {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 18px;
+
+    &.is-favorite {
+      color: $c-red;
     }
   }
 }

@@ -4,6 +4,8 @@ import Index from '@/views/Index'
 import Me from '@/views/Me'
 import Movies from '@/views/Movies'
 import Movie from '@/views/Movie'
+import Session from '@/views/Session'
+import Setting from '@/views/Setting'
 
 Vue.use(Router)
 
@@ -35,7 +37,35 @@ export default new Router({
     name: 'Movie',
     component: Movie,
     meta: {
-      keepAlive: false
+      keepAlive: false,
+      hideBottomNav: true
+    }
+  }, {
+    path: '/login',
+    name: 'Login',
+    component: Session,
+    meta: {
+      keepAlive: false,
+      isLogin: true,
+      hideBottomNav: true
+    }
+  }, {
+    path: '/register',
+    name: 'Register',
+    component: Session,
+    meta: {
+      keepAlive: false,
+      isLogin: false,
+      hideBottomNav: true
+    }
+  }, {
+    path: '/setting',
+    name: 'Setting',
+    component: Setting,
+    meta: {
+      keepAlive: false,
+      isLogin: false,
+      hideBottomNav: true
     }
   }],
   scrollBehavior(to, from, savedPosition) {

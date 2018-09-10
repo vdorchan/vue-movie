@@ -7,7 +7,7 @@ export default {
   install: Vue => {
     Vue.directive('loading', { // 指令的关键
       bind: (el, binding) => {
-        console.log('bind', binding);
+        console.log('loading bind', binding);
         const loading = new LoadingConstructor({ // 实例化一个loading
           el: document.createElement('span'),
           data: {
@@ -21,7 +21,7 @@ export default {
         toggleLoading(el, binding);
       },
       update: (el, binding) => {
-        console.log('update'. binding, el.instance);
+        console.log('loading update'. binding, el.instance);
         el.instance.setText(el.getAttribute('loading-text'))
         if(binding.oldValue !== binding.value) {
           toggleLoading(el, binding)
@@ -32,7 +32,6 @@ export default {
           if(binding.modifiers.fullscreen) {
               document.body.removeChild(el.loading);
           }else {
-            console.log('remove');
             el.loading &&
             el.loading.parentNode &&
             el.loading.parentNode.removeChild(el.loading);
@@ -45,7 +44,7 @@ export default {
       if(binding.value) { 
         Vue.nextTick(() => {
           if (binding.modifiers.fullscreen) { // 如果是全屏
-            console.log('nextTick', el.loading);
+            // console.log('nextTick', el.loading);
             el.originalPosition = document.body.style.position;
             el.originalOverflow = document.body.style.overflow;
             insertDom(document.body, el, binding); // 插入dom
@@ -78,13 +77,14 @@ export default {
           el.loading.style[property] = el.loadingStyle[property];
         });
         if(el.originalPosition !== 'absolute') {
-          parent.style.position = 'relative'
+          if (!getComputedStyle(parent, null).position) {
+            parent.style.position = 'relative'
+          }
         }
         if (binding.modifiers.fullscreen) {
           parent.style.overflow = 'hidden'
         }
         el.domVisible = true;
-        console.log(el.loading);
         parent.appendChild(el.loading) // 插入的是el.loading而不是el本身
         Vue.nextTick(() => {
           el.instance.visible = true;

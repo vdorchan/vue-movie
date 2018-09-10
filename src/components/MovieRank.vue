@@ -1,7 +1,7 @@
 <template>
   <div class="movie-list">
     <h3><slot></slot></h3>
-    <a class="movie-item" v-for="(movie, index) in movies" :href="'/movie/' + movie.id" :key="movie.id">
+    <router-link class="movie-item" v-for="(movie, index) in movies" :to="'/movie/' + movie.id" :key="movie.id">
       <div class="movie-ranking">{{ parseInt(start) + index + 1 }}</div>
       <div class="movie-poster">
         <img :src="movie.images.small" alt="">
@@ -10,8 +10,8 @@
         <h4>{{ movie.title}} </h4>
         <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating></p>
         <p>{{ movie.collect_count }}人看过</p>
-      </div>
-    </a>
+      </div>  
+    </router-link>
     <a class="rank-link" href="">全部{{total}}部</a>
   </div>
 </template>
@@ -40,8 +40,8 @@ export default {
       this.movies = data.subjects
       this.total = data.total
 
-      if (type === 'us_box') {
-        this.movies = data.subjects.slice(0, 5).map(subject => subject.subject)
+      if (type !== 'top250') {
+        this.movies = data.subjects.slice(0, 5).map(subject => subject.subject ? subject.subject : subject)
         this.total = data.subjects.length
       }
 

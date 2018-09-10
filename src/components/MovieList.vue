@@ -1,5 +1,5 @@
 <template>
-  <section class="movie-list-container" v-loading.fullscreen="!movies[0]" @scroll="loadNextPage">
+  <section class="movie-list-container" v-loading.fullscreen="!movies[0]" @scroll="loadNextPage" v-scroll="{cb: handleScroll, trigger: true}">
     <div class="movie-list">
       <router-link v-for="movie in movies" :to="'/movie/' + movie.id" :key="movie.id">
         <div class="movie-poster">
@@ -77,10 +77,14 @@ export default {
       return parseInt(style.height) - parseInt(style.paddingTop) - parseInt(style.paddingBottom)
     },
     loadNextPage(e) {
+      console.log(111);
       const tar = e.target
       if (tar.scrollTop + tar.clientHeight === tar.scrollHeight) {
         this.loadMovies()
       }
+    },
+    handleScroll() {
+      console.log('jj');
     }
   },
   components: {
@@ -94,9 +98,9 @@ export default {
 .movie {
   &-list {
     &-container {
-      height: 100%;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      // height: 100%;
+      // overflow-y: auto;
+      // -webkit-overflow-scrolling: touch;
       // box-sizing: border-box;
     }
     a {

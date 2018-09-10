@@ -1,79 +1,275 @@
 <template>
   <div>
     <top-bar page-title="热映">
-      <a href="javascript:" v-for="(tab, index) of tabs" :key="index" @click="swithMovie(index)" :class="{ current: currentTab === index}">{{ tab.label }}</a> 
+      <a href="javascript:" v-for="(tab, index) of tabs" :key="index" @click="slideSwiper(index)" :class="{ current: currentTabIndex === index}">{{ tab.label }}</a> 
       <!-- <a href="./in_theaters">已上映</a>
       <a href="./coming_soon">即将上映</a> -->
       <!-- <router-link to="/index/in_theaters">已上映</router-link> -->
       <!-- <router-link to="/index/coming_soon">即将上映</router-link> -->
     </top-bar>
-    <!-- <movieList type="in_theaters" v-show="currentTab === 0"></movieList> -->
-    <!-- <movieList type="coming_soon" v-show="currentTab === 1"></movieList> -->
-    <!-- <movieList :type="types[currentTab]"></movieList> -->
+    <!-- <movieList type="in_theaters" v-show="currentTabIndex === 0"></movieList> -->
+    <!-- <movieList type="coming_soon" v-show="currentTabIndex === 1"></movieList> -->
+    <!-- <movieList :type="types[currentTabIndex]"></movieList> -->
 
     <!-- <keep-alive>
-      <component :is="movieList" :type="types[currentTab]"></component>
+      <component :is="movieList" :type="types[currentTabIndex]"></component>
     
     </keep-alive> -->
-    <div class="container">
-      <movie-list v-for="(tab, index) of tabs" :key="index" :type="index" v-show="currentTab === index" v-if="tab.loaded"></movie-list>
-    </div>
-    <bottom-nav></bottom-nav>
+    <swiper ref="movieSwiper" class="container" @slideChangeTransitionStart="swithMovie">
+      <swiper-slide v-for="(tab, index) of tabs" :key="index">
+        <mescroll-vue v-if="tab.isLoaded" class="movie-list-container" ref="mescroll" :down="pullDownConfigs[index]" :up="scrollMoreConfigs[index]" v-loading.fullscreen="!movies[index].length">
+          <div class="movie-list">
+            <router-link v-for="movie in movies[index]" :to="'/movie/' + movie.id" :key="movie.id">
+              <div class="movie-poster">
+                <img :src="movie.images.large" alt="">
+              </div>
+              <div class="movie-info">
+                <h4 class="movie-title">{{ movie.title}} </h4>
+                <p>{{ movie.genres.map(genre => `${genre}`).join('/')}}</p>
+                <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating></p>
+                <p>导演：{{ movie.directors.map(director => `${director.name}`).join(' ') }}</p>
+                <p>主演：{{ movie.casts.map(cast => `${cast.name}`).join(' ') }}</p>
+              </div>
+            </router-link>
+          </div>
+          <div class="movie-loading" v-show="!tab.isLoadFinal&&movies[index].length">加载中<loader></loader></div>
+          <div class="movie-final" v-if="tab.isLoadFinal">没有更多啦</div>
+        </mescroll-vue>
+      </swiper-slide>
+      <div id="toTop" class="to-top">
+        <font-awesome-icon class="movie-collect" :icon="['fas', 'angle-double-up']"/>
+      </div>
+    </swiper>
   </div>
 </template>
 
 <script>
 import TopBar from '../components/TopBar'
-import BottomNav from '../components/BottomNav'
-import MovieList from '../components/MovieList'
+import Rating from '../components/Rating'
+import Loader from '../components/Loader'
+import {getInTheater, getComingSoon} from '../store/api.js'
+import MescrollVue from 'mescroll.js/mescroll.vue'
+import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export default {
   data() {
     return {
-      currentTab: null,
+      currentTabIndex: null,
       tabs: [
-        { label: '已上映', type: 'in_theaters', loaded: false },
-        { label: '即将上映', type: 'coming_soon', loaded: false }
+        { label: '已上映', fun: 'getInTheater', isLoaded: false, isLoadFinal: false },
+        { label: '即将上映', fun: 'getComingSoon', isLoaded: false, isLoadFinal: false }
+      ],
+      movies: [],
+      getInTheater,
+      getComingSoon,
+      isLoadFinal: false,
+      mescroll: null,
+      pullDownConfigs: [
+        {
+          callback: this.pullDown
+        },
+        {
+          callback: this.pullDown
+        }
+      ],
+      scrollMoreConfigs: [
+        {
+          callback: this.loadMovies,
+          page: {
+            num: -1, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            size: 10 //每页数据条数,默认10
+          },
+          toTop: {
+            warpId: 'toTop',
+            html: '<span></span>',
+            wrapClass: 'mescroll-totop',
+            offset: 2000
+          }
+        },
+        {
+          callback: this.loadMovies,
+          page: {
+            num: -1, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            size: 10 //每页数据条数,默认10
+          },
+          toTop: {
+            warpId: 'toTop',
+            html: '<span></span>',
+            wrapClass: 'mescroll-totop',
+            offset: 2000
+          }
+        }
       ]
     }
   },
   mounted() {
+    this.tabs.forEach(() => this.movies.push([]) )
     this.swithMovie(0)
-
   },
   activated() {
-    console.log(11);
   },
   methods: {
-    swithMovie(tab) {
-      console.log(tab);
-      this.currentTab = tab
-      this.tabs[tab].loaded = true
-
+    mescrollInit(mescroll) {
+      this.mescroll = mescroll
     },
-    bindScroll() {
-      const body = document.body
-      window.onscroll = () => {
-        // console.log(document.body.clientHeight, document.body.scrollHeight);
-        
+    async pullDown(mescroll) {
+      // setTimeout(() => {
+      //   mescroll.endSuccess()
+      // }, 2000);
+      mescroll.resetUpScroll()
+    },
+    slideSwiper(index) {
+      this.$refs.movieSwiper.swiper.slideTo(index, 0)
+    },
+    swithMovie(tab, mescroll) {
+      this.currentTabIndex = this.$refs.movieSwiper.swiper.activeIndex
+      this.tabs[this.currentTabIndex].isLoaded = true
+      // this.loadMovies()
+    },
+    async loadMovies(page, mescroll) {
+      // console.log('loadMovies', page.num);
+      const { currentTabIndex } = this
+      const currentTab = this.tabs[currentTabIndex]
 
+      const {data} = await this[currentTab.fun](page.num * page.size, page.size)
+
+      console.log(page.num);
+      if (page.num === 1) {
+        this.movies[currentTabIndex] = []
+      }
+      this.movies.splice(currentTabIndex, 1, this.movies[currentTabIndex].concat(data.subjects))
+
+      currentTab.isLoadFinal = page.num * page.size + data.subjects.length >= data.total
+      this.tabs.splice(currentTabIndex, 1, currentTab)
+
+      mescroll && mescroll.endSuccess(data.subjects.length, !currentTab.isLoadFinal)
+    },
+    loadNextPage(e) {
+      const tar = e.target
+      if (tar.scrollTop + tar.clientHeight === tar.scrollHeight) {
+        this.loadMovies()
       }
     }
   },
   name: 'Index',
   components: {
     TopBar,
-    BottomNav,
-    MovieList
+    Rating,
+    Loader,
+    MescrollVue,
+    fontAwesomeIcon
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/sass/var';
 .container {
   position: absolute;
   width: 100%;
   padding-top: 80px;
+  height: 100%;
+}
+.movie {
+  &-list {
+    &-container {
+      // height: 100%;
+      // overflow-y: auto;
+      // -webkit-overflow-scrolling: touch;
+      // box-sizing: border-box;
+    }
+    a {
+      display: flex;
+      text-decoration: none;
+      background: #111215;
+
+      &:nth-child(even) {
+        background: #0c0d0f;
+      }
+    }
+  }
+
+  &-poster {
+    width: 130px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  &-info {
+    padding-left: 15px;
+    flex-grow: 1;
+    text-align: left;
+
+    p {
+      width: 100%;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      line-height: 20px;
+      color: #676971;
+      margin: 0;
+      max-height: 40px;
+      overflow: hidden;
+    }
+  }
+  &-title {
+    margin: 15px 0 10px;
+    font-size: 20px;
+    color: #ffffff; 
+  }
+  &-loading,
+  &-final {
+    width: 100%;
+    display: flex;
+    color: #ffffff;
+    line-height: 40px;
+    justify-content: center;
+    align-items: center;
+  }
+  &-final {
+    opacity: 0.6;
+  }
+}
+
+.movie-list-container {
+  height: 100%;
+}
+.movie-list {
+  min-height: 100%;
+}
+.movie-list-container /deep/ .mescroll-upwarp {
+  display: none!important;
+}
+.to-top {
+  position: fixed;
+  right: 10px;
+  bottom: 30px;
+  width: 35px;
+  height: 35px;
+  z-index: 9990;
+  background: $c-red;
+  border-radius: 50%;
+
+  svg {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    padding: 6px;
+    box-sizing: border-box;
+  }
+
+  /deep/ .mescroll-totop{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
 
