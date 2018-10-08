@@ -11,12 +11,19 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  // base: '/Vue-projects/vue-movie/dist/',
+  base: location.pathname.replace(/(\S+\/)[^\/]+$/g, '$1'),
   routes: [{
     path: '/',
     name: 'Index',
     component: Index,
     meta: {
       keepAlive: true
+    }
+  }, {
+    path: '/index.html',
+    redirect: {
+      name: 'Index'
     }
   }, {
     path: '/movies',

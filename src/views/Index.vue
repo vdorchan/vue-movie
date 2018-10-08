@@ -17,7 +17,7 @@
     </keep-alive> -->
     <swiper ref="movieSwiper" class="container" @slideChangeTransitionStart="swithMovie">
       <swiper-slide v-for="(tab, index) of tabs" :key="index">
-        <mescroll-vue v-if="tab.isLoaded" class="movie-list-container" ref="mescroll" :down="pullDownConfigs[index]" :up="scrollMoreConfigs[index]" v-loading.fullscreen="!movies[index].length">
+        <mescroll-vue v-if="tab.isLoaded" class="movie-list-container" ref="mescroll" :down="pullDownConfigs[index]" :up="scrollMoreConfigs[index]" @init="mescrollInit" v-loading.fullscreen="!movies[index].length">
           <div class="movie-list">
             <router-link v-for="movie in movies[index]" :to="'/movie/' + movie.id" :key="movie.id">
               <div class="movie-poster">
@@ -37,7 +37,7 @@
         </mescroll-vue>
       </swiper-slide>
       <div id="toTop" class="to-top">
-        <font-awesome-icon class="movie-collect" :icon="['fas', 'angle-double-up']"/>
+        <!-- <font-awesome-icon class="movie-collect" :icon="['fas', 'angle-double-up']"/> -->
       </div>
     </swiper>
   </div>
@@ -62,8 +62,9 @@ export default {
       movies: [],
       getInTheater,
       getComingSoon,
+      showToTop: false,
       isLoadFinal: false,
-      mescroll: null,
+      mescroll: [],
       pullDownConfigs: [
         {
           callback: this.pullDown
@@ -81,9 +82,10 @@ export default {
           },
           toTop: {
             warpId: 'toTop',
+            // src: '@/assets/images/i-search.png',
             html: '<span></span>',
             wrapClass: 'mescroll-totop',
-            offset: 2000
+            offset: 1200
           }
         },
         {
@@ -95,8 +97,9 @@ export default {
           toTop: {
             warpId: 'toTop',
             html: '<span></span>',
+            src: '@/assets/images/i-search.png',
             wrapClass: 'mescroll-totop',
-            offset: 2000
+            offset: 1200
           }
         }
       ]
@@ -105,12 +108,16 @@ export default {
   mounted() {
     this.tabs.forEach(() => this.movies.push([]) )
     this.swithMovie(0)
+
+    setTimeout(() => {
+      this.showToTop = true
+    }, 10000);
   },
   activated() {
   },
   methods: {
     mescrollInit(mescroll) {
-      this.mescroll = mescroll
+      this.mescroll[this.currentTabIndex] = mescroll
     },
     async pullDown(mescroll) {
       // setTimeout(() => {
@@ -149,6 +156,10 @@ export default {
       if (tar.scrollTop + tar.clientHeight === tar.scrollHeight) {
         this.loadMovies()
       }
+    },
+    toTop() {
+      console.log(this);
+      this.mescroll[this.currentTabIndex].scrollTo(0)
     }
   },
   name: 'Index',
@@ -249,7 +260,6 @@ export default {
   width: 35px;
   height: 35px;
   z-index: 9990;
-  background: $c-red;
   border-radius: 50%;
 
   svg {
@@ -269,6 +279,10 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
+
+    background: $c-red url('../assets/images/up.svg') center center no-repeat;
+    background-size: 26px 26px;
   }
 }
 </style>
