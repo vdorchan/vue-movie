@@ -29,33 +29,33 @@
 </template>
 
 <script>
-  import TopBar from '../components/TopBar'
-  import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
-  import { logout } from '../store/api'
+import TopBar from '../components/TopBar'
+import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { logout } from '../store/api'
 
-  export default {
-    name: 'Setting',
-    data() {
-      return {}
-    },
-    watch: {
-      '$store.state.userInfo'(to, from){
-        this.user = this.$store.state.userInfo
-      }
-    },
-    created() {
+export default {
+  name: 'Setting',
+  data () {
+    return {}
+  },
+  watch: {
+    '$store.state.userInfo' (to, from) {
       this.user = this.$store.state.userInfo
-    },
-    methods: {
-      logout() {
-        logout()
-      }
-    },
-    components: {
-      TopBar,
-      fontAwesomeIcon
     }
+  },
+  created () {
+    this.user = this.$store.state.userInfo
+  },
+  methods: {
+    logout () {
+      logout()
+    }
+  },
+  components: {
+    TopBar,
+    fontAwesomeIcon
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -78,7 +78,7 @@
   font-size: 20px;
   line-height: 50px;
   border-bottom: 1px solid #ccc;
-  
+
   &:last-child {
     border: none;
   }
@@ -116,6 +116,5 @@ dd {
     color: #fff;
   }
 }
-
 
 </style>

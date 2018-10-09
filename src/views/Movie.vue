@@ -39,14 +39,13 @@
 import TopBar from '../components/TopBar'
 import CelebritiesList from '../components/CelebritiesList'
 import MovieRecommandList from '../components/MovieRecommandList'
-import {getMovieById} from '../store/api'
+import { getMovieById } from '../store/api'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 import {
   ADD_TO_FAVORITES,
   REMOVE_FROM_FAVORITES
 } from '../store/mutation-types.js'
-
 
 // const TopBar = () => ({
 //   component: import('../components/TopBar.vue'),
@@ -59,33 +58,33 @@ import {
 
 export default {
   name: 'Movie',
-  data() {
+  data () {
     return {
       movie: null,
       recommandMovies: null,
       showTitle: false
     }
   },
-  created() {
+  created () {
     this.loadMovie()
   },
   watch: {
-    '$route'(to, from) {
+    '$route' (to, from) {
       this.loadMovie(to.params.id)
     }
-  }, 
+  },
   methods: {
-    async loadMovie() {
+    async loadMovie () {
       this.movie = null
-      const {data: movie} = await getMovieById(this.$route.params.id)
+      const { data: movie } = await getMovieById(this.$route.params.id)
       this.movie = movie
       // this.$nextTick(this.bindScroll)
     },
-    handleScroll(evt, el) {
-      console.log(el.scrollTop);
+    handleScroll (evt, el) {
+      console.log(el.scrollTop)
     },
-    getAbsPoint(e) {
-      //再封装个函数吧。传进来的e可以是字符串类型（即id）,也可以是htmlElement对象。觉得getEL是个累赘的话，就把它删除掉。
+    getAbsPoint (e) {
+      // 再封装个函数吧。传进来的e可以是字符串类型（即id）,也可以是htmlElement对象。觉得getEL是个累赘的话，就把它删除掉。
       var x = e.offsetLeft
       var y = e.offsetTop
       while (e = e.offsetParent) {
@@ -93,25 +92,25 @@ export default {
         y += e.offsetTop
       }
       return {
-        "x": x,
-        "y": y
+        'x': x,
+        'y': y
       }
     },
-    bindScroll() {
-      console.log(document.querySelector('h2'));
+    bindScroll () {
+      console.log(document.querySelector('h2'))
       const absY = this.getAbsPoint(document.querySelector('h2')).y
       this.showTitle = window.scrollY > absY
       window.onscroll = () => this.showTitle = window.scrollY > absY
     },
-    addMovie() {
+    addMovie () {
       // this.$store.commit(ADD_TO_FAVORITES, {movie: this.movie})
-      this.$store.dispatch('addToFavorites', {movie: this.movie})
+      this.$store.dispatch('addToFavorites', { movie: this.movie })
     },
-    removeMovie() {
+    removeMovie () {
       // this.$store.commit(REMOVE_FROM_FAVORITES, {movieId: this.movie.id})
-      this.$store.dispatch('removeFromFavorites', {movieId: this.movie.id})
+      this.$store.dispatch('removeFromFavorites', { movieId: this.movie.id })
     }
-    
+
   },
   components: {
     TopBar,
@@ -120,7 +119,7 @@ export default {
     fontAwesomeIcon
   },
   computed: {
-    isFavorite() {
+    isFavorite () {
       try {
         return this.$store.state.userInfo.favorites.find(movie => movie.id === this.movie.id)
       } catch (err) {
@@ -140,7 +139,7 @@ export default {
 }
 .header {
   &.gradient {
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%,rgba(0, 0, 0, 0.5) 100%); 
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%,rgba(0, 0, 0, 0.5) 100%);
   }
   &.show-title {
     background: $c-red;
@@ -169,7 +168,7 @@ export default {
       top: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 40%,rgba(0, 0, 0, 0.5) 50%, #000000 90%, #000000 100%); 
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 40%,rgba(0, 0, 0, 0.5) 50%, #000000 90%, #000000 100%);
     }
     &-inner {
       position: absolute;
@@ -269,4 +268,3 @@ h2 {
   line-height: 1;
 }
 </style>
-

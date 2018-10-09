@@ -9,25 +9,25 @@
 
 <script>
 import { searchMovies } from '../store/api'
-import movieItem from './movieItem'
+import movieItem from './MovieItem.vue'
 
 export default {
-  data() {
+  data () {
     return {
       movies: [],
       pageCount: 10
     }
   },
   props: ['tag'],
-  mounted() {
+  mounted () {
     this.loadMovies()
   },
   methods: {
-    async loadMovies(n=0) {
-      const {data} = await searchMovies(this.$props.tag, 0, this.pageCount)
+    async loadMovies (n = 0) {
+      const { data } = await searchMovies(this.$props.tag, 0, this.pageCount)
 
       this.movies = data.subjects
-    },
+    }
   },
   components: {
     movieItem

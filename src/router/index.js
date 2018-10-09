@@ -75,7 +75,7 @@ export default new Router({
       hideBottomNav: true
     }
   }],
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior (to, from, savedPosition) {
     console.log(savedPosition)
     if (savedPosition) {
       return savedPosition

@@ -17,5 +17,3 @@ export default {
   color: $c-red;
 }
 </style>
-
-

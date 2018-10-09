@@ -33,20 +33,20 @@ import BottomNav from '../components/BottomNav'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export default {
-  data() {
+  data () {
     return {
       user: null
     }
   },
   watch: {
-    '$store.state.userInfo'(to, from){
+    '$store.state.userInfo' (to, from) {
       this.user = this.$store.state.userInfo
     }
   },
-  created() {
+  created () {
     this.user = this.$store.state.userInfo
   },
-  activated() {},
+  activated () {},
   methods: {},
   name: 'Me',
   components: {
@@ -152,5 +152,3 @@ h4 {
   color: #ffffff;
 }
 </style>
-
-

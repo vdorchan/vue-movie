@@ -10,22 +10,22 @@
 </template>
 
 <script>
-import {getMovieRecommand} from '../store/api'
+import { getMovieRecommand } from '../store/api'
 
 export default {
   props: ['id'],
-  data() {
+  data () {
     return {
       recommandMovies: null
     }
   },
-  async mounted() {
-    const {data: {subjects}} = await getMovieRecommand(this.$props.id)
+  async mounted () {
+    const { data: { subjects } } = await getMovieRecommand(this.$props.id)
     const len = subjects.length
     this.recommandMovies = subjects.slice(0, len - len % 3)
   },
-  async created() {
-    console.log(this.$props);
+  async created () {
+    console.log(this.$props)
   }
 }
 </script>

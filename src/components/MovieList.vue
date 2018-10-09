@@ -22,10 +22,10 @@
 <script>
 import Rating from './Rating'
 import Loader from './Loader'
-import {getInTheater, getComingSoon} from '../store/api.js'
+import { getInTheater, getComingSoon } from '../store/api.js'
 
 export default {
-  data() {
+  data () {
     return {
       movieArr: [],
       movies: [],
@@ -38,7 +38,7 @@ export default {
     }
   },
   props: ['type'],
-  mounted() {
+  mounted () {
     this.loadMovies()
   },
   // watch: {
@@ -53,15 +53,15 @@ export default {
   //   }
   // },
   methods: {
-    async loadMovies(n = 0) {
-      console.log(this.$props);
+    async loadMovies (n = 0) {
+      console.log(this.$props)
       if ((this.movies[0] && this.pageIndex === 0) || this.isLoading || this.isLoadFinal) {
         return false
       }
 
       this.isLoading = true
 
-      const {data} = await this[(this.$props.type === 0 ? 'getInTheater':'getComingSoon')](this.pageIndex * this.pageCount, this.pageCount)
+      const { data } = await this[(this.$props.type === 0 ? 'getInTheater' : 'getComingSoon')](this.pageIndex * this.pageCount, this.pageCount)
 
       if ((this.pageIndex + 1) * this.pageCount >= data.total) {
         this.isLoadFinal = true
@@ -72,19 +72,19 @@ export default {
 
       this.isLoading = false
     },
-    innerHeight(elem) {
+    innerHeight (elem) {
       const style = window.getComputedStyle(elem)
       return parseInt(style.height) - parseInt(style.paddingTop) - parseInt(style.paddingBottom)
     },
-    loadNextPage(e) {
-      console.log(111);
+    loadNextPage (e) {
+      console.log(111)
       const tar = e.target
       if (tar.scrollTop + tar.clientHeight === tar.scrollHeight) {
         this.loadMovies()
       }
     },
-    handleScroll() {
-      console.log('jj');
+    handleScroll () {
+      console.log('jj')
     }
   },
   components: {
@@ -155,6 +155,6 @@ export default {
 h4 {
   margin: 15px 0 10px;
   font-size: 20px;
-  color: #ffffff; 
+  color: #ffffff;
 }
 </style>

@@ -16,12 +16,11 @@
 
 <script>
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import movieItem from './movieItem'
 import { searchMovies } from '../store/api'
 import debounce from 'debounce'
 
 export default {
-  data() {
+  data () {
     return {
       movies: [],
       searchWord: '',
@@ -34,10 +33,10 @@ export default {
   //   }
   // },
   watch: {
-    searchWord() {
+    searchWord () {
       this.debouncedSearchMovies()
     },
-    show() {
+    show () {
       document.documentElement.style.overflowY = this.show ? 'hidden' : 'auto'
       if (!this.show) {
         this.movies = []
@@ -51,32 +50,31 @@ export default {
   //     show: true
   //   }
   // },
-  created() {
+  created () {
     this.debouncedSearchMovies = debounce(this.searchMovies, 500)
   },
   methods: {
-    closeSearch() {
+    closeSearch () {
       if (!this.show) return
       // this.show = false
 
       this.$emit('update:show', false)
     },
-    async searchMovies() {
+    async searchMovies () {
       this.movies = []
       this.loading = true
-      const {data} = await searchMovies(this.searchWord, 0, 20)
+      const { data } = await searchMovies(this.searchWord, 0, 20)
       this.loading = false
-      
+
       this.movies = data.subjects
     }
   },
   components: {
-    fontAwesomeIcon,
-    movieItem
+    fontAwesomeIcon
   },
   directives: {
     focus: {
-      update(el, {value}) {
+      update (el, { value }) {
         if (value) {
           el.focus()
         }

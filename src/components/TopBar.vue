@@ -15,7 +15,7 @@ import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import SearchBar from './SearchBar'
 
 export default {
-  data() {
+  data () {
     return {
       show: false,
       movies: []
@@ -29,14 +29,14 @@ export default {
   components: {
     fontAwesomeIcon,
     SearchBar
-  }, 
-  mounted() {
+  },
+  mounted () {
   },
   methods: {
-    showSearch() {
+    showSearch () {
       this.show = true
     },
-    back() {
+    back () {
       this.$router.go(-1)
     }
   }
@@ -100,4 +100,3 @@ export default {
   font-size: 20px;
 }
 </style>
-

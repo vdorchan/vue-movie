@@ -14,16 +14,16 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       celebrities: null
     }
   },
-  created() {
-    this.celebrities = this.$props.directors.map(d => Object.assign(d, {isDirector: true})).concat(this.$props.casts)
+  created () {
+    this.celebrities = this.$props.directors.map(d => Object.assign(d, { isDirector: true })).concat(this.$props.casts)
   },
   props: ['casts', 'directors'],
-  methods: { 
+  methods: {
     hasPhotos: casts => casts.filter(cast => cast.avatars)
   }
 }
@@ -41,7 +41,7 @@ export default {
   &-item {
     display: inline-block;
     margin-right: 10px;
-    text-align: center; 
+    text-align: center;
     text-decoration: none;
     overflow: hidden;
     vertical-align: top;
@@ -65,4 +65,3 @@ h4 {
   text-overflow: ellipsis;
 }
 </style>
-

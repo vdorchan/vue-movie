@@ -28,25 +28,25 @@
 </template>
 
 <script>
-  export default {
-    name: 'loading',
-    data() {
-      return {
-        text: null,
-        fullscreen: true,
-        visible: false
-      }
-    },
+export default {
+  name: 'loading',
+  data () {
+    return {
+      text: null,
+      fullscreen: true,
+      visible: false
+    }
+  },
 
-    methods: {
-      handleAfterLeave() {
-        this.$emit('after-leave')
-      },
-      setText(text) {
-        this.text = text
-      }
+  methods: {
+    handleAfterLeave () {
+      this.$emit('after-leave')
+    },
+    setText (text) {
+      this.text = text
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -69,4 +69,3 @@
   }
 }
 </style>
-

@@ -35,13 +35,13 @@ import MovieListRow from '../components/MovieListRow'
 
 export default {
   name: 'List',
-  data() {
+  data () {
     return {}
   },
   watch: {
     '$route.id' (to, from) {
-      console.log('kkk');
-      console.log(to, from);
+      console.log('kkk')
+      console.log(to, from)
     }
   },
   components: {

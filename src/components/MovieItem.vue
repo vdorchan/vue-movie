@@ -6,13 +6,12 @@
     <div class="movie-info">
       <h4 class="movie-title">{{ movie.title}} </h4>
       <p><rating :average="movie.rating.average"></rating></p>
-    </div>  
+    </div>
   </router-link>
 </template>
 
 <script>
 import Rating from './Rating.vue'
-import { searchMovies } from '../store/api'
 
 export default {
   name: 'movieItem',
@@ -27,7 +26,7 @@ export default {
 .movie {
   &-item {
     display: inline-block;
-    text-align: center; 
+    text-align: center;
     text-decoration: none;
     overflow: hidden;
     vertical-align: top;

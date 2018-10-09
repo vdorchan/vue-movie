@@ -10,7 +10,7 @@
         <h4>{{ movie.title}} </h4>
         <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating></p>
         <p>{{ movie.collect_count }}人看过</p>
-      </div>  
+      </div>
     </router-link>
     <a class="rank-link" href="">全部{{total}}部</a>
   </div>
@@ -18,25 +18,25 @@
 
 <script>
 import Rating from './Rating.vue'
-import {getMovies} from '../store/api'
+import { getMovies } from '../store/api'
 
 export default {
-  data() {
+  data () {
     return {
       movies: [],
       total: 0
     }
   },
   props: ['start', 'count', 'type'],
-  mounted() {
+  mounted () {
     this.loadMovies()
   },
   methods: {
-    async loadMovies() {
-      const {type, count} = this.$props        
+    async loadMovies () {
+      const { type, count } = this.$props
 
-      const {data} = await getMovies(type, 0, count)
-      
+      const { data } = await getMovies(type, 0, count)
+
       this.movies = data.subjects
       this.total = data.total
 
@@ -44,7 +44,6 @@ export default {
         this.movies = data.subjects.slice(0, 5).map(subject => subject.subject ? subject.subject : subject)
         this.total = data.subjects.length
       }
-
     }
   },
   components: {

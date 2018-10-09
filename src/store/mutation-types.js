@@ -7,4 +7,3 @@ export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const REGISTER = 'REGISTER'
 export const GET_USER = 'GET_USER'
 export const UPDATE_SESSION = 'UPDATE_SESSION'
-

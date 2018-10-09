@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-bar page-title="热映">
-      <a href="javascript:" v-for="(tab, index) of tabs" :key="index" @click="slideSwiper(index)" :class="{ current: currentTabIndex === index}">{{ tab.label }}</a> 
+      <a href="javascript:" v-for="(tab, index) of tabs" :key="index" @click="slideSwiper(index)" :class="{ current: currentTabIndex === index}">{{ tab.label }}</a>
       <!-- <a href="./in_theaters">已上映</a>
       <a href="./coming_soon">即将上映</a> -->
       <!-- <router-link to="/index/in_theaters">已上映</router-link> -->
@@ -13,7 +13,7 @@
 
     <!-- <keep-alive>
       <component :is="movieList" :type="types[currentTabIndex]"></component>
-    
+
     </keep-alive> -->
     <swiper ref="movieSwiper" class="container" @slideChangeTransitionStart="swithMovie">
       <swiper-slide v-for="(tab, index) of tabs" :key="index">
@@ -47,12 +47,12 @@
 import TopBar from '../components/TopBar'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
-import {getInTheater, getComingSoon} from '../store/api.js'
+import { getInTheater, getComingSoon } from '../store/api.js'
 import MescrollVue from 'mescroll.js/mescroll.vue'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export default {
-  data() {
+  data () {
     return {
       currentTabIndex: null,
       tabs: [
@@ -77,8 +77,8 @@ export default {
         {
           callback: this.loadMovies,
           page: {
-            num: -1, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-            size: 10 //每页数据条数,默认10
+            num: -1, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            size: 10 // 每页数据条数,默认10
           },
           toTop: {
             warpId: 'toTop',
@@ -91,8 +91,8 @@ export default {
         {
           callback: this.loadMovies,
           page: {
-            num: -1, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
-            size: 10 //每页数据条数,默认10
+            num: -1, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            size: 10 // 每页数据条数,默认10
           },
           toTop: {
             warpId: 'toTop',
@@ -105,42 +105,42 @@ export default {
       ]
     }
   },
-  mounted() {
-    this.tabs.forEach(() => this.movies.push([]) )
+  mounted () {
+    this.tabs.forEach(() => this.movies.push([]))
     this.swithMovie(0)
 
     setTimeout(() => {
       this.showToTop = true
-    }, 10000);
+    }, 10000)
   },
-  activated() {
+  activated () {
   },
   methods: {
-    mescrollInit(mescroll) {
+    mescrollInit (mescroll) {
       this.mescroll[this.currentTabIndex] = mescroll
     },
-    async pullDown(mescroll) {
+    async pullDown (mescroll) {
       // setTimeout(() => {
       //   mescroll.endSuccess()
       // }, 2000);
       mescroll.resetUpScroll()
     },
-    slideSwiper(index) {
+    slideSwiper (index) {
       this.$refs.movieSwiper.swiper.slideTo(index, 0)
     },
-    swithMovie(tab, mescroll) {
+    swithMovie (tab, mescroll) {
       this.currentTabIndex = this.$refs.movieSwiper.swiper.activeIndex
       this.tabs[this.currentTabIndex].isLoaded = true
       // this.loadMovies()
     },
-    async loadMovies(page, mescroll) {
+    async loadMovies (page, mescroll) {
       // console.log('loadMovies', page.num);
       const { currentTabIndex } = this
       const currentTab = this.tabs[currentTabIndex]
 
-      const {data} = await this[currentTab.fun](page.num * page.size, page.size)
+      const { data } = await this[currentTab.fun](page.num * page.size, page.size)
 
-      console.log(page.num);
+      console.log(page.num)
       if (page.num === 1) {
         this.movies[currentTabIndex] = []
       }
@@ -151,14 +151,14 @@ export default {
 
       mescroll && mescroll.endSuccess(data.subjects.length, !currentTab.isLoadFinal)
     },
-    loadNextPage(e) {
+    loadNextPage (e) {
       const tar = e.target
       if (tar.scrollTop + tar.clientHeight === tar.scrollHeight) {
         this.loadMovies()
       }
     },
-    toTop() {
-      console.log(this);
+    toTop () {
+      console.log(this)
       this.mescroll[this.currentTabIndex].scrollTo(0)
     }
   },
@@ -228,7 +228,7 @@ export default {
   &-title {
     margin: 15px 0 10px;
     font-size: 20px;
-    color: #ffffff; 
+    color: #ffffff;
   }
   &-loading,
   &-final {
@@ -286,5 +286,3 @@ export default {
   }
 }
 </style>
-
-

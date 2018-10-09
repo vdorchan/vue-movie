@@ -47,6 +47,11 @@ fontawesome.library.add(brands, solid, regular, faSpinner)
 
 Vue.config.productionTip = false
 
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount('#app')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -55,3 +60,4 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+

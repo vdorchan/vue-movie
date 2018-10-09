@@ -11,7 +11,7 @@
         <router-link class="form-link" to="register" replace>注册</router-link> | <router-link class="form-link" to="forgetPasword">忘记密码</router-link>
       </template>
       <template v-else>
-        <router-link class="form-link" to="login" replace>有账号了，去登陆</router-link> 
+        <router-link class="form-link" to="login" replace>有账号了，去登陆</router-link>
       </template>
     </div>
   </div>
@@ -23,24 +23,24 @@ import BottomNav from '../components/BottomNav'
 import { mapActions } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
       nickname: '',
       password: ''
     }
   },
-  created() {
+  created () {
     this.updateSubmitForm()
   },
   watch: {
-    '$route'(to, from) {
+    '$route' (to, from) {
       this.updateSubmitForm()
     }
-  }, 
-  activated() {},
+  },
+  activated () {},
   methods: {
-    submitForm() {},
-    updateSubmitForm() {
+    submitForm () {},
+    updateSubmitForm () {
       this.submitForm = this.$route.meta.isLogin ? this.login : this.register
     },
     ...mapActions([
@@ -107,5 +107,3 @@ export default {
           }
 }
 </style>
-
-

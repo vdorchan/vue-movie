@@ -18,14 +18,14 @@ import BottomNav from './components/BottomNav'
 export default {
   name: 'App',
 
-  data() {
+  data () {
     return {
       transitionName: 'slide-fade',
       isShowNav: true
     }
   },
 
-  created() {
+  created () {
     this.$store.dispatch('getUser')
   },
 
@@ -37,7 +37,7 @@ export default {
       this.isShowNav = !to.matched.some(record => record.meta.hideBottomNav)
     }
   },
-  
+
   components: {
     BottomNav
   }

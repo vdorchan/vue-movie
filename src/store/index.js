@@ -16,7 +16,7 @@ import {
   addToFavorites,
   removeFromFavorites,
   getUser
-  
+
 } from '../store/api'
 
 import router from '../router'
@@ -31,19 +31,19 @@ export default new Vuex.Store({
   getters: {},
 
   mutations: {
-    [UPDATE_FAVORITES](state, {
+    [UPDATE_FAVORITES] (state, {
       favorites
     }) {
       state.userInfo.favorites = favorites
     },
 
-    [UPDATE_SESSION](state, { data }) {
+    [UPDATE_SESSION] (state, { data }) {
       state.userInfo = data.userInfo
     }
   },
 
   actions: {
-    async login({ commit }, { nickname, password, rt } = {}) {
+    async login ({ commit }, { nickname, password, rt } = {}) {
       if (!nickname) return alert('用户名不能为空')
       if (!password) return alert('密码不能为空')
 
@@ -56,12 +56,12 @@ export default new Vuex.Store({
       }
     },
 
-    async register({ commit }, { nickname, password } = {}) {
+    async register ({ commit }, { nickname, password } = {}) {
       if (!nickname || nickname.length < 5) return alert('账号名不能为空，至少5个字符！')
       if (!password || password.length < 5) return alert('密码不能为空，至少5个字符！')
 
       const { data } = await register(nickname, password)
-      
+
       alert(data.msg)
 
       if (data.success) {
@@ -69,26 +69,23 @@ export default new Vuex.Store({
           path: 'login'
         })
       }
-
     },
 
-    async getUser({ commit }) {
+    async getUser ({ commit }) {
       const { data } = await getUser()
       data.success && commit(UPDATE_SESSION, { data })
     },
 
-    async addToFavorites({ commit }, { movie }) {
+    async addToFavorites ({ commit }, { movie }) {
       const { data } = await addToFavorites(movie)
       data.success && commit(UPDATE_FAVORITES, data)
     },
 
-    async removeFromFavorites({ commit }, { movieId }) {
+    async removeFromFavorites ({ commit }, { movieId }) {
       const { data } = await removeFromFavorites(movieId)
 
       data.success && commit(UPDATE_FAVORITES, data)
     }
   }
-
-
 
 })
