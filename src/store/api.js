@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const apiHost = 'https://api.vdorchan.com'
-// const apiHost = 'http://localhost:8080'
+const apiHost = process.env.NODE_ENV === 'production' ? 'https://api.vdorchan.com' : 'http://localhost:8080'
 
 axios.defaults.withCredentials = true
 
