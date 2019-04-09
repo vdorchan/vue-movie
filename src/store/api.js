@@ -1,8 +1,7 @@
 import axios from 'axios'
-// const {axios} = Vue
 
-// const apiHost = 'http://localhost:3000'
-const apiHost = '//viidorchan.com/api'
+const apiHost = 'https://api.vdorchan.com'
+// const apiHost = 'http://localhost:8080'
 
 axios.defaults.withCredentials = true
 

@@ -1,15 +1,6 @@
 module.exports = {
-  // baseUrl: './',
-  runtimeCompiler: true,
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://api.douban.com/v2',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
-  }
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/movie/'
+    : '/',
+  runtimeCompiler: true
 }

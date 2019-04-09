@@ -2,21 +2,12 @@
   <div>
     <top-bar page-title="热映">
       <a href="javascript:" v-for="(tab, index) of tabs" :key="index" @click="slideSwiper(index)" :class="{ current: currentTabIndex === index}">{{ tab.label }}</a>
-      <!-- <a href="./in_theaters">已上映</a>
-      <a href="./coming_soon">即将上映</a> -->
-      <!-- <router-link to="/index/in_theaters">已上映</router-link> -->
-      <!-- <router-link to="/index/coming_soon">即将上映</router-link> -->
     </top-bar>
-    <!-- <movieList type="in_theaters" v-show="currentTabIndex === 0"></movieList> -->
-    <!-- <movieList type="coming_soon" v-show="currentTabIndex === 1"></movieList> -->
-    <!-- <movieList :type="types[currentTabIndex]"></movieList> -->
-
-    <!-- <keep-alive>
-      <component :is="movieList" :type="types[currentTabIndex]"></component>
-
-    </keep-alive> -->
     <swiper ref="movieSwiper" class="container" @slideChangeTransitionStart="swithMovie">
       <swiper-slide v-for="(tab, index) of tabs" :key="index">
+        <div :id="'toTop'+index" class="to-top">
+          <!-- <font-awesome-icon class="movie-collect" :icon="['fas', 'angle-double-up']"/> -->
+        </div>
         <mescroll-vue v-if="tab.isLoaded" class="movie-list-container" ref="mescroll" :down="pullDownConfigs[index]" :up="scrollMoreConfigs[index]" @init="mescrollInit" v-loading.fullscreen="!movies[index].length">
           <div class="movie-list">
             <router-link v-for="movie in movies[index]" :to="'/movie/' + movie.id" :key="movie.id">
@@ -36,9 +27,6 @@
           <div class="movie-final" v-if="tab.isLoadFinal">没有更多啦</div>
         </mescroll-vue>
       </swiper-slide>
-      <div id="toTop" class="to-top">
-        <!-- <font-awesome-icon class="movie-collect" :icon="['fas', 'angle-double-up']"/> -->
-      </div>
     </swiper>
   </div>
 </template>
@@ -77,11 +65,11 @@ export default {
         {
           callback: this.loadMovies,
           page: {
-            num: -1, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            num: 0, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
             size: 10 // 每页数据条数,默认10
           },
           toTop: {
-            warpId: 'toTop',
+            warpId: 'toTop0',
             // src: '@/assets/images/i-search.png',
             html: '<span></span>',
             wrapClass: 'mescroll-totop',
@@ -91,11 +79,11 @@ export default {
         {
           callback: this.loadMovies,
           page: {
-            num: -1, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+            num: 0, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
             size: 10 // 每页数据条数,默认10
           },
           toTop: {
-            warpId: 'toTop',
+            warpId: 'toTop1',
             html: '<span></span>',
             src: '@/assets/images/i-search.png',
             wrapClass: 'mescroll-totop',
@@ -108,10 +96,6 @@ export default {
   mounted () {
     this.tabs.forEach(() => this.movies.push([]))
     this.swithMovie(0)
-
-    setTimeout(() => {
-      this.showToTop = true
-    }, 10000)
   },
   activated () {
   },
@@ -120,9 +104,6 @@ export default {
       this.mescroll[this.currentTabIndex] = mescroll
     },
     async pullDown (mescroll) {
-      // setTimeout(() => {
-      //   mescroll.endSuccess()
-      // }, 2000);
       mescroll.resetUpScroll()
     },
     slideSwiper (index) {
@@ -131,22 +112,19 @@ export default {
     swithMovie (tab, mescroll) {
       this.currentTabIndex = this.$refs.movieSwiper.swiper.activeIndex
       this.tabs[this.currentTabIndex].isLoaded = true
-      // this.loadMovies()
     },
     async loadMovies (page, mescroll) {
-      // console.log('loadMovies', page.num);
       const { currentTabIndex } = this
       const currentTab = this.tabs[currentTabIndex]
+      const pageNum = page.num - 1
+      const { data } = await this[currentTab.fun](pageNum * page.size, page.size)
 
-      const { data } = await this[currentTab.fun](page.num * page.size, page.size)
-
-      console.log(page.num)
-      if (page.num === 1) {
+      if (pageNum === 0) {
         this.movies[currentTabIndex] = []
       }
-      this.movies.splice(currentTabIndex, 1, this.movies[currentTabIndex].concat(data.subjects))
 
-      currentTab.isLoadFinal = page.num * page.size + data.subjects.length >= data.total
+      this.movies.splice(currentTabIndex, 1, this.movies[currentTabIndex].concat(data.subjects))
+      currentTab.isLoadFinal = pageNum * page.size + data.subjects.length >= data.total
       this.tabs.splice(currentTabIndex, 1, currentTab)
 
       mescroll && mescroll.endSuccess(data.subjects.length, !currentTab.isLoadFinal)
@@ -158,7 +136,6 @@ export default {
       }
     },
     toTop () {
-      console.log(this)
       this.mescroll[this.currentTabIndex].scrollTo(0)
     }
   },
@@ -254,7 +231,7 @@ export default {
   display: none!important;
 }
 .to-top {
-  position: fixed;
+  position: absolute;
   right: 10px;
   bottom: 30px;
   width: 35px;

@@ -11,7 +11,6 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  // base: '/Vue-projects/vue-movie/dist/',
   base: location.pathname.replace(/(\S+\/)[^\/]+$/g, '$1'),
   routes: [{
     path: '/',
@@ -81,6 +80,6 @@ export default new Router({
       return savedPosition
     } else {
       return { x: 0, y: 0 }
-    }
+    }  
   }
 })

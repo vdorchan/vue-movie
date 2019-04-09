@@ -1,9 +1,24 @@
 <template>
-  <div class="container" v-loading.fullscreen="!movie">
-    <div class="movie" v-if="movie">
-      <top-bar :class="['gradient', {'show-title': showTitle}]" :page-title="showTitle?movie.title:'电影'" hideSearch=true showBack=true></top-bar>
+  <div
+    class="container"
+    v-loading.fullscreen="!movie"
+  >
+    <div
+      class="movie"
+      v-if="movie"
+    >
+      <top-bar
+        :class="['gradient', {'show-title': showTitle}]"
+        :page-title="showTitle?movie.title:'电影'"
+        hideSearch=true
+        showBack=true
+      ></top-bar>
       <section class="movie-info">
-        <img class="movie-poster" :src="movie.bigPoster" alt="">
+        <img
+          class="movie-poster"
+          :src="movie.bigPoster"
+          alt=""
+        >
         <div class="movie-info-inner">
           <p><i class="c-red">Movie</i> {{ movie.year }}</p>
           <h2>{{ movie.title }}</h2>
@@ -13,8 +28,24 @@
           <p>{{ movie.casts.map(c => c.name).join('/') }}</p>
           <div class="movie-rate-wrapper">
             <div>
-              <p><font-awesome-icon class="movie-collect" :icon="['far', 'heart']" @click="addMovie" v-show="!isFavorite" /><font-awesome-icon class="movie-collect is-favorite" :icon="['fas', 'heart']" @click="removeMovie" v-show="isFavorite" />{{ movie.collect_count }} 人收藏了该电影 </p>
-              <p><font-awesome-icon class="movie-comment" :icon="['far', 'comment-dots']" />{{ movie.comments_count }} 条评论</p>
+              <p>
+                <font-awesome-icon
+                  class="movie-collect"
+                  :icon="['far', 'heart']"
+                  @click="addMovie"
+                  v-show="!isFavorite"
+                />
+                <font-awesome-icon
+                  class="movie-collect is-favorite"
+                  :icon="['fas', 'heart']"
+                  @click="removeMovie"
+                  v-show="isFavorite"
+                />{{ movie.collect_count }} 人收藏了该电影 </p>
+              <p>
+                <font-awesome-icon
+                  class="movie-comment"
+                  :icon="['far', 'comment-dots']"
+                />{{ movie.comments_count }} 条评论</p>
             </div>
             <div class="movie-rate">
               <i class="c-red">{{ movie.rating.average }}</i>/10
@@ -28,7 +59,10 @@
       </section>
       <section class="movie-casts">
         <p>影人：</p>
-        <celebrities-list :casts="movie.casts" :directors="movie.directors"></celebrities-list>
+        <celebrities-list
+          :casts="movie.casts"
+          :directors="movie.directors"
+        ></celebrities-list>
       </section>
       <movie-recommand-list :id="movie.id"></movie-recommand-list>
     </div>
@@ -66,15 +100,19 @@ export default {
     }
   },
   created () {
+    console.log('movie created')
     this.loadMovie()
   },
-  watch: {
-    '$route' (to, from) {
-      this.loadMovie(to.params.id)
-    }
+  activated () {
+    console.log('movie activated')
+    this.loadMovie()
   },
   methods: {
     async loadMovie () {
+      if (this.loading) {
+        return
+      }
+      this.loading = true
       this.movie = null
       const { data: movie } = await getMovieById(this.$route.params.id)
       this.movie = movie
@@ -131,7 +169,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 
 .container {
   padding-top: 0;
@@ -139,7 +177,11 @@ export default {
 }
 .header {
   &.gradient {
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%,rgba(0, 0, 0, 0.5) 100%);
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
   }
   &.show-title {
     background: $c-red;
@@ -162,13 +204,20 @@ export default {
     height: 575px;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 40%,rgba(0, 0, 0, 0.5) 50%, #000000 90%, #000000 100%);
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.5) 50%,
+        #000000 90%,
+        #000000 100%
+      );
     }
     &-inner {
       position: absolute;
@@ -187,7 +236,7 @@ export default {
       text-overflow: ellipsis;
     }
   }
-  &-rate{
+  &-rate {
     width: 73px;
     height: 73px;
     line-height: 73px;
@@ -213,7 +262,7 @@ export default {
       }
 
       &::before {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         width: 40px;

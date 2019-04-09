@@ -21,7 +21,6 @@ export default {
         toggleLoading(el, binding)
       },
       update: (el, binding) => {
-        console.log('loading update'.binding, el.instance)
         el.instance.setText(el.getAttribute('loading-text'))
         if (binding.oldValue !== binding.value) {
           toggleLoading(el, binding)
