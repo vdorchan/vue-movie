@@ -1,14 +1,38 @@
 <template>
   <transition name="slide">
-    <section class="search-container" v-show="show">
-      <div class="search-result" v-show="searchWord.length" v-loading="loading">
+    <section
+      class="search-container"
+      v-show="show"
+    >
+      <div
+        class="search-result"
+        v-show="searchWord.length"
+        v-loading="loading"
+      >
         <div class="movie-list">
-          <movie-item v-for="movie of movies" :movie="movie" :key="movie.id"></movie-item>
+          <movie-item
+            v-for="movie of movies"
+            :movie="movie"
+            :key="movie.id"
+          ></movie-item>
         </div>
       </div>
       <div class="search-wrapper">
-        <input class="search-ipt" type="text" v-focus="show" v-model="searchWord">
-        <a href="javascript:" class="search-btn" @click="closeSearch"><font-awesome-icon class="search-icon" :icon="['fas', 'times']" /></a>
+        <input
+          class="search-ipt"
+          type="text"
+          v-focus="show"
+          v-model="searchWord"
+        >
+        <a
+          href="javascript:"
+          class="search-btn"
+          @click="closeSearch"
+        >
+          <font-awesome-icon
+            class="search-icon"
+            :icon="['fas', 'times']"
+          /></a>
       </div>
     </section>
   </transition>
@@ -137,14 +161,14 @@ export default {
   animation: slide-up-in 0.5s linear reverse;
 }
 .slide-leave-to {
-  transform:translateY(-100%);
+  transform: translateY(-100%);
 }
 @keyframes slide-up-in {
   0% {
-    transform:translateY(-100%);
+    transform: translateY(-100%);
   }
   100% {
-    transform:translateY(0)
+    transform: translateY(0);
   }
 }
 

@@ -1,23 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {
-  TO_VIP,
-  ADD_TO_FAVORITES,
-  REMOVE_FROM_FAVORITES,
-  UPDATE_FAVORITES,
-  LOGIN_SUCCESS,
-  REGISTER,
-  UPDATE_SESSION
-} from './mutation-types'
+import { TO_VIP, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, UPDATE_FAVORITES, LOGIN_SUCCESS, REGISTER, UPDATE_SESSION } from './mutation-types'
 
-import {
-  login,
-  register,
-  addToFavorites,
-  removeFromFavorites,
-  getUser
-
-} from '../store/api'
+import { login, register, addToFavorites, removeFromFavorites, getUser } from '../store/api'
 
 import router from '../router'
 
@@ -31,9 +16,7 @@ export default new Vuex.Store({
   getters: {},
 
   mutations: {
-    [UPDATE_FAVORITES] (state, {
-      favorites
-    }) {
+    [UPDATE_FAVORITES] (state, { favorites }) {
       state.userInfo.favorites = favorites
     },
 
@@ -87,5 +70,4 @@ export default new Vuex.Store({
       data.success && commit(UPDATE_FAVORITES, data)
     }
   }
-
 })

@@ -11,7 +11,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: location.pathname.replace(/(\S+\/)[^\/]+$/g, '$1'),
+  base: location.pathname.replace(/(\S+\/)[^/]+$/g, '$1'),
   routes: [{
     path: '/',
     name: 'Index',
@@ -80,6 +80,6 @@ export default new Router({
       return savedPosition
     } else {
       return { x: 0, y: 0 }
-    }  
+    }
   }
 })

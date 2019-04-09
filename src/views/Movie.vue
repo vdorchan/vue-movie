@@ -138,7 +138,9 @@ export default {
       console.log(document.querySelector('h2'))
       const absY = this.getAbsPoint(document.querySelector('h2')).y
       this.showTitle = window.scrollY > absY
-      window.onscroll = () => this.showTitle = window.scrollY > absY
+      window.onscroll = () => {
+        this.showTitle = window.scrollY > absY
+      }
     },
     addMovie () {
       // this.$store.commit(ADD_TO_FAVORITES, {movie: this.movie})

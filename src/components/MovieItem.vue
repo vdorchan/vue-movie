@@ -1,11 +1,19 @@
 <template>
-  <router-link class="movie-item" :to="'/movie/' + movie.id">
+  <router-link
+    class="movie-item"
+    :to="'/movie/' + movie.id"
+  >
     <div class="movie-poster">
-      <img :src="movie.images.small" alt="">
+      <img
+        :src="movie.images.small"
+        alt=""
+      >
     </div>
     <div class="movie-info">
       <h4 class="movie-title">{{ movie.title}} </h4>
-      <p><rating :average="movie.rating.average"></rating></p>
+      <p>
+        <rating :average="movie.rating.average"></rating>
+      </p>
     </div>
   </router-link>
 </template>

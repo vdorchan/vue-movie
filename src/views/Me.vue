@@ -2,33 +2,56 @@
   <div class="container">
     <div class="user-main">
       <router-link :to="user ? 'setting' : 'login'">
-        <img v-if="user && user.avatar" class="user-avatar" :src="user.avatar" alt="">
-        <div class="user-avatar" v-else>
+        <img
+          v-if="user && user.avatar"
+          class="user-avatar"
+          :src="user.avatar"
+          alt=""
+        >
+        <div
+          class="user-avatar"
+          v-else
+        >
           <font-awesome-icon :icon="['fas', 'user']" />
         </div>
         <div>
           <strong class="user-nickname">{{ user ? user.nickname : '未登录' }}</strong>
-          <p class="user-id" v-if="user">ID: {{ user.id }}</p>
+          <p
+            class="user-id"
+            v-if="user"
+          >ID: {{ user.id }}</p>
         </div>
       </router-link>
     </div>
-    <div class="user-favorites" v-if="user">
+    <div
+      class="user-favorites"
+      v-if="user"
+    >
       <h3>喜欢的电影({{ $store.state.userInfo.favorites.length }}部)</h3>
-      <router-link v-if="$store.state.userInfo.favorites" v-for="movie in $store.state.userInfo.favorites" :to="'/movie/' + movie.id" :key="movie.id">
-        <div class="movie-poster">
-          <img :src="movie.images.large" alt="">
-        </div>
-        <div class="movie-info">
-          <h4>{{ movie.title}} </h4>
-          <p>{{ movie.casts.map(cast => `${cast.name}`).join(' ') }}</p>
-        </div>
-      </router-link>
+      <template v-if="$store.state.userInfo.favorites">
+        <router-link
+          v-for="movie in $store.state.userInfo.favorites"
+          :to="'/movie/' + movie.id"
+          :key="movie.id"
+        >
+          <div class="movie-poster">
+            <img
+              :src="movie.images.large"
+              alt=""
+            >
+          </div>
+          <div class="movie-info">
+            <h4>{{ movie.title}} </h4>
+            <p>{{ movie.casts.map(cast => `${cast.name}`).join(' ') }}</p>
+          </div>
+        </router-link>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-import TopBar from '../components/TopBar'
+// import TopBar from '../components/TopBar'
 import BottomNav from '../components/BottomNav'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
@@ -46,7 +69,7 @@ export default {
   created () {
     this.user = this.$store.state.userInfo
   },
-  activated () {},
+  activated () { },
   methods: {},
   name: 'Me',
   components: {
@@ -57,7 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 .container {
   // position: absolute;
   // width: 100%;

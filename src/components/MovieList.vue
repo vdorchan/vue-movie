@@ -1,20 +1,40 @@
 <template>
-  <section class="movie-list-container" v-loading.fullscreen="!movies[0]" @scroll="loadNextPage" v-scroll="{cb: handleScroll, trigger: true}">
+  <section
+    class="movie-list-container"
+    v-loading.fullscreen="!movies[0]"
+    @scroll="loadNextPage"
+    v-scroll="{cb: handleScroll, trigger: true}"
+  >
     <div class="movie-list">
-      <router-link v-for="movie in movies" :to="'/movie/' + movie.id" :key="movie.id">
+      <router-link
+        v-for="movie in movies"
+        :to="'/movie/' + movie.id"
+        :key="movie.id"
+      >
         <div class="movie-poster">
-          <img :src="movie.images.large" alt="">
+          <img
+            :src="movie.images.large"
+            alt=""
+          >
         </div>
         <div class="movie-info">
           <h4>{{ movie.title}} </h4>
           <p>{{ movie.genres.map(genre => `${genre}`).join('/')}}</p>
-          <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating></p>
+          <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating>
+          </p>
           <p>导演：{{ movie.directors.map(director => `${director.name}`).join(' ') }}</p>
           <p>主演：{{ movie.casts.map(cast => `${cast.name}`).join(' ') }}</p>
         </div>
       </router-link>
-      <div class="movie-loading" v-show="!isLoadFinal&&movies[0]">加载中<loader></loader></div>
-      <div class="movie-final" v-if="isLoadFinal">没有更多啦</div>
+      <div
+        class="movie-loading"
+        v-show="!isLoadFinal&&movies[0]"
+      >加载中<loader></loader>
+      </div>
+      <div
+        class="movie-final"
+        v-if="isLoadFinal"
+      >没有更多啦</div>
     </div>
   </section>
 </template>
@@ -41,17 +61,6 @@ export default {
   mounted () {
     this.loadMovies()
   },
-  // watch: {
-  //   '$route' (to, from) {
-  //     console.log(to, from);
-  //     console.log(this.loadMovies);
-  //     this.loadMovies()
-  //   },
-  //   '$props.type' () {
-  //     console.log(11);
-  //     this.loadMovies()
-  //   }
-  // },
   methods: {
     async loadMovies (n = 0) {
       console.log(this.$props)
@@ -97,12 +106,6 @@ export default {
 <style lang="scss" scoped>
 .movie {
   &-list {
-    &-container {
-      // height: 100%;
-      // overflow-y: auto;
-      // -webkit-overflow-scrolling: touch;
-      // box-sizing: border-box;
-    }
     a {
       display: flex;
       text-decoration: none;

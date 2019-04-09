@@ -1,8 +1,14 @@
 <template>
   <div class="movie-list">
-    <h3><slot>{{ tag }}</slot></h3>
+    <h3>
+      <slot>{{ tag }}</slot>
+    </h3>
     <div class="movie-list-inner">
-      <movie-item v-for="movie of movies" :movie="movie" :key="movie.id"></movie-item>
+      <movie-item
+        v-for="movie of movies"
+        :movie="movie"
+        :key="movie.id"
+      ></movie-item>
     </div>
   </div>
 </template>
@@ -36,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 
 .movie {
   &-list {

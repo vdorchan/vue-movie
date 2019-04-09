@@ -1,8 +1,19 @@
 <template>
-  <div class="celebrities-list" v-if="celebrities">
-    <a class="celebrities-item" v-for="celebrities of hasPhotos(celebrities)" :href="celebrities.alt" :key="celebrities.id">
+  <div
+    class="celebrities-list"
+    v-if="celebrities"
+  >
+    <a
+      class="celebrities-item"
+      v-for="celebrities of hasPhotos(celebrities)"
+      :href="celebrities.alt"
+      :key="celebrities.id"
+    >
       <div class="celebrities-avatar">
-        <img :src="celebrities.avatars.large" alt="">
+        <img
+          :src="celebrities.avatars.large"
+          alt=""
+        >
       </div>
       <div class="celebrities-info">
         <h4>{{ celebrities.name}} </h4>
@@ -30,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 
 .celebrities {
   &-list {

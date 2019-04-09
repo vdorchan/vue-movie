@@ -5,10 +5,12 @@ const LoadingConstructor = Vue.extend(Loading)
 
 export default {
   install: Vue => {
-    Vue.directive('loading', { // 指令的关键
+    Vue.directive('loading', {
+      // 指令的关键
       bind: (el, binding) => {
         console.log('loading bind', binding)
-        const loading = new LoadingConstructor({ // 实例化一个loading
+        const loading = new LoadingConstructor({
+          // 实例化一个loading
           el: document.createElement('span'),
           data: {
             text: el.getAttribute('loading-text'), // 通过loading-text属性获取loading的文字
@@ -26,23 +28,24 @@ export default {
           toggleLoading(el, binding)
         }
       },
-      unbind: (el, binding) => { // 解绑
+      unbind: (el, binding) => {
+        // 解绑
         if (el.domInserted) {
           if (binding.modifiers.fullscreen) {
             document.body.removeChild(el.loading)
           } else {
-            el.loading &&
-            el.loading.parentNode &&
-            el.loading.parentNode.removeChild(el.loading)
+            el.loading && el.loading.parentNode && el.loading.parentNode.removeChild(el.loading)
           }
         }
       }
     })
 
-    const toggleLoading = (el, binding) => { // 用于控制Loading的出现与消失
+    const toggleLoading = (el, binding) => {
+      // 用于控制Loading的出现与消失
       if (binding.value) {
         Vue.nextTick(() => {
-          if (binding.modifiers.fullscreen) { // 如果是全屏
+          if (binding.modifiers.fullscreen) {
+            // 如果是全屏
             // console.log('nextTick', el.loading);
             el.originalPosition = document.body.style.position
             el.originalOverflow = document.body.style.overflow
@@ -70,7 +73,8 @@ export default {
       }
     }
 
-    const insertDom = (parent, el, binding) => { // 插入dom的逻辑
+    const insertDom = (parent, el, binding) => {
+      // 插入dom的逻辑
       if (!el.domVisible) {
         Object.keys(el.loadingStyle).forEach(property => {
           el.loading.style[property] = el.loadingStyle[property]

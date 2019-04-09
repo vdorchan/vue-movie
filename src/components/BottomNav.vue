@@ -1,10 +1,19 @@
 <template>
   <footer class="">
-    <router-link to="/" replace>
+    <router-link
+      to="/"
+      replace
+    >
       <font-awesome-icon :icon="['far', 'calendar']" />热映</router-link>
-    <router-link to="/movies" replace>
+    <router-link
+      to="/movies"
+      replace
+    >
       <font-awesome-icon :icon="['fas', 'film']" />电影</router-link>
-    <router-link to="/me" replace>
+    <router-link
+      to="/me"
+      replace
+    >
       <font-awesome-icon :icon="['far', 'user']" />我</router-link>
   </footer>
 </template>

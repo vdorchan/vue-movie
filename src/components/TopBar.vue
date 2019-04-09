@@ -1,12 +1,27 @@
 <template>
   <header class="header">
-    <a href="javascript:" class="btn-back" @click="back" v-if="showBack"><font-awesome-icon :icon="['fas', 'chevron-left']" /></a>
+    <a
+      href="javascript:"
+      class="btn-back"
+      @click="back"
+      v-if="showBack"
+    >
+      <font-awesome-icon :icon="['fas', 'chevron-left']" /></a>
     {{ pageTitle }}
-    <a href="javascript:" class="btn-search" @click="showSearch" v-if="!hideSearch"><font-awesome-icon :icon="['fas', 'search']" /></a>
+    <a
+      href="javascript:"
+      class="btn-search"
+      @click="showSearch"
+      v-if="!hideSearch"
+    >
+      <font-awesome-icon :icon="['fas', 'search']" /></a>
     <div class="header-sub">
       <slot></slot>
     </div>
-    <search-bar :show.sync="show" v-if="!hideSearch"></search-bar>
+    <search-bar
+      :show.sync="show"
+      v-if="!hideSearch"
+    ></search-bar>
   </header>
 </template>
 
@@ -44,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 
 .header {
   position: fixed;

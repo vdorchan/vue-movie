@@ -1,30 +1,69 @@
 <template>
   <div>
     <top-bar page-title="热映">
-      <a href="javascript:" v-for="(tab, index) of tabs" :key="index" @click="slideSwiper(index)" :class="{ current: currentTabIndex === index}">{{ tab.label }}</a>
+      <a
+        href="javascript:"
+        v-for="(tab, index) of tabs"
+        :key="index"
+        @click="slideSwiper(index)"
+        :class="{ current: currentTabIndex === index}"
+      >{{ tab.label }}</a>
     </top-bar>
-    <swiper ref="movieSwiper" class="container" @slideChangeTransitionStart="swithMovie">
-      <swiper-slide v-for="(tab, index) of tabs" :key="index">
-        <div :id="'toTop'+index" class="to-top">
+    <swiper
+      ref="movieSwiper"
+      class="container"
+      @slideChangeTransitionStart="swithMovie"
+    >
+      <swiper-slide
+        v-for="(tab, index) of tabs"
+        :key="index"
+      >
+        <div
+          :id="'toTop'+index"
+          class="to-top"
+        >
           <!-- <font-awesome-icon class="movie-collect" :icon="['fas', 'angle-double-up']"/> -->
         </div>
-        <mescroll-vue v-if="tab.isLoaded" class="movie-list-container" ref="mescroll" :down="pullDownConfigs[index]" :up="scrollMoreConfigs[index]" @init="mescrollInit" v-loading.fullscreen="!movies[index].length">
+        <mescroll-vue
+          v-if="tab.isLoaded"
+          class="movie-list-container"
+          ref="mescroll"
+          :down="pullDownConfigs[index]"
+          :up="scrollMoreConfigs[index]"
+          @init="mescrollInit"
+          v-loading.fullscreen="!movies[index].length"
+        >
           <div class="movie-list">
-            <router-link v-for="movie in movies[index]" :to="'/movie/' + movie.id" :key="movie.id">
+            <router-link
+              v-for="movie in movies[index]"
+              :to="'/movie/' + movie.id"
+              :key="movie.id"
+            >
               <div class="movie-poster">
-                <img :src="movie.images.large" alt="">
+                <img
+                  :src="movie.images.large"
+                  alt=""
+                >
               </div>
               <div class="movie-info">
                 <h4 class="movie-title">{{ movie.title}} </h4>
                 <p>{{ movie.genres.map(genre => `${genre}`).join('/')}}</p>
-                <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating></p>
+                <p>{{ movie.year }} - <rating :average="movie.rating.average"></rating>
+                </p>
                 <p>导演：{{ movie.directors.map(director => `${director.name}`).join(' ') }}</p>
                 <p>主演：{{ movie.casts.map(cast => `${cast.name}`).join(' ') }}</p>
               </div>
             </router-link>
           </div>
-          <div class="movie-loading" v-show="!tab.isLoadFinal&&movies[index].length">加载中<loader></loader></div>
-          <div class="movie-final" v-if="tab.isLoadFinal">没有更多啦</div>
+          <div
+            class="movie-loading"
+            v-show="!tab.isLoadFinal&&movies[index].length"
+          >加载中<loader></loader>
+          </div>
+          <div
+            class="movie-final"
+            v-if="tab.isLoadFinal"
+          >没有更多啦</div>
         </mescroll-vue>
       </swiper-slide>
     </swiper>
@@ -151,7 +190,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 .container {
   position: absolute;
   width: 100%;
@@ -160,12 +199,6 @@ export default {
 }
 .movie {
   &-list {
-    &-container {
-      // height: 100%;
-      // overflow-y: auto;
-      // -webkit-overflow-scrolling: touch;
-      // box-sizing: border-box;
-    }
     a {
       display: flex;
       text-decoration: none;
@@ -228,7 +261,7 @@ export default {
   min-height: 100%;
 }
 .movie-list-container /deep/ .mescroll-upwarp {
-  display: none!important;
+  display: none !important;
 }
 .to-top {
   position: absolute;
@@ -250,7 +283,7 @@ export default {
     box-sizing: border-box;
   }
 
-  /deep/ .mescroll-totop{
+  /deep/ .mescroll-totop {
     position: absolute;
     left: 0;
     top: 0;
@@ -258,7 +291,7 @@ export default {
     height: 100%;
     border-radius: 50%;
 
-    background: $c-red url('../assets/images/up.svg') center center no-repeat;
+    background: $c-red url("../assets/images/up.svg") center center no-repeat;
     background-size: 26px 26px;
   }
 }

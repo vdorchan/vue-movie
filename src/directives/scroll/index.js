@@ -1,6 +1,3 @@
-
-import Vue from 'vue'
-
 export default {
   install: Vue => {
     Vue.directive('scroll', {

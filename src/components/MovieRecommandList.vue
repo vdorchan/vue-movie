@@ -1,12 +1,20 @@
 <template>
   <section class="movie-recommand">
-      <p>喜欢这部电影的人<span>也喜欢</span></p>
-      <div class="movie-recommand-list">
-        <router-link class="movie-recommand-item" v-for="movie in recommandMovies" :to="'/movie/' + movie.id" :key="movie.id">
-          <img :src="movie.poster" alt="">
-        </router-link>
-      </div>
-    </section>
+    <p>喜欢这部电影的人<span>也喜欢</span></p>
+    <div class="movie-recommand-list">
+      <router-link
+        class="movie-recommand-item"
+        v-for="movie in recommandMovies"
+        :to="'/movie/' + movie.id"
+        :key="movie.id"
+      >
+        <img
+          :src="movie.poster"
+          alt=""
+        >
+      </router-link>
+    </div>
+  </section>
 </template>
 
 <script>

@@ -4,16 +4,32 @@
     <section class="rank-container">
       <swiper>
         <swiper-slide>
-          <movie-rank start=0 count=5 type="top250">豆瓣Top250</movie-rank>
+          <movie-rank
+            start=0
+            count=5
+            type="top250"
+          >豆瓣Top250</movie-rank>
         </swiper-slide>
         <swiper-slide>
-          <movie-rank start=0 count=5 type="us_box">北美票房榜</movie-rank>
+          <movie-rank
+            start=0
+            count=5
+            type="us_box"
+          >北美票房榜</movie-rank>
         </swiper-slide>
         <swiper-slide>
-          <movie-rank start=0 count=5 type="weekly">口碑榜</movie-rank>
+          <movie-rank
+            start=0
+            count=5
+            type="weekly"
+          >口碑榜</movie-rank>
         </swiper-slide>
         <swiper-slide>
-          <movie-rank start=0 count=5 type="new_movies">新片榜</movie-rank>
+          <movie-rank
+            start=0
+            count=5
+            type="new_movies"
+          >新片榜</movie-rank>
         </swiper-slide>
       </swiper>
     </section>
@@ -54,7 +70,6 @@ export default {
 </script>
 
 <style scoped>
-
 .rank-container {
   width: 95%;
   padding-right: 5%;

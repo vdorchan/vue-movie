@@ -1,25 +1,84 @@
 <template>
   <transition
     name="loading"
-  	@after-leave="handleAfterLeave">
+    @after-leave="handleAfterLeave"
+  >
     <div
       v-show="visible"
       class="loading-mask"
-      :class="{fullscreen: fullscreen}">
+      :class="{fullscreen: fullscreen}"
+    >
       <div class="loading">
-        <svg width="60px" height="60px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-flickr" style="background: none;">
-          <circle cy="50" cx="34" fill="#e15b64" r="20">
-            <animate attributeName="cx" calcMode="linear" values="30;70;30" keyTimes="0;0.5;1" dur="1" begin="-0.5s" repeatCount="indefinite"></animate>
+        <svg
+          width="60px"
+          height="60px"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="xMidYMid"
+          class="lds-flickr"
+          style="background: none;"
+        >
+          <circle
+            cy="50"
+            cx="34"
+            fill="#e15b64"
+            r="20"
+          >
+            <animate
+              attributeName="cx"
+              calcMode="linear"
+              values="30;70;30"
+              keyTimes="0;0.5;1"
+              dur="1"
+              begin="-0.5s"
+              repeatCount="indefinite"
+            ></animate>
           </circle>
-          <circle cy="50" cx="66" fill="#f47e60" r="20">
-            <animate attributeName="cx" calcMode="linear" values="30;70;30" keyTimes="0;0.5;1" dur="1" begin="0s" repeatCount="indefinite"></animate>
+          <circle
+            cy="50"
+            cx="66"
+            fill="#f47e60"
+            r="20"
+          >
+            <animate
+              attributeName="cx"
+              calcMode="linear"
+              values="30;70;30"
+              keyTimes="0;0.5;1"
+              dur="1"
+              begin="0s"
+              repeatCount="indefinite"
+            ></animate>
           </circle>
-          <circle cy="50" cx="34" fill="#e15b64" r="20">
-            <animate attributeName="cx" calcMode="linear" values="30;70;30" keyTimes="0;0.5;1" dur="1" begin="-0.5s" repeatCount="indefinite"></animate>
-            <animate attributeName="fill-opacity" values="0;0;1;1" calcMode="discrete" keyTimes="0;0.499;0.5;1" repeatCount="indefinite" dur="1s"></animate>
+          <circle
+            cy="50"
+            cx="34"
+            fill="#e15b64"
+            r="20"
+          >
+            <animate
+              attributeName="cx"
+              calcMode="linear"
+              values="30;70;30"
+              keyTimes="0;0.5;1"
+              dur="1"
+              begin="-0.5s"
+              repeatCount="indefinite"
+            ></animate>
+            <animate
+              attributeName="fill-opacity"
+              values="0;0;1;1"
+              calcMode="discrete"
+              keyTimes="0;0.499;0.5;1"
+              repeatCount="indefinite"
+              dur="1s"
+            ></animate>
           </circle>
         </svg>
-        <div class="loading-text" v-if="text">
+        <div
+          class="loading-text"
+          v-if="text"
+        >
           {{ text }}
         </div>
       </div>

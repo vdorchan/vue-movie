@@ -5,7 +5,7 @@ const apiHost = 'https://api.vdorchan.com'
 
 axios.defaults.withCredentials = true
 
-export const getMovieById = (id) => axios.get(`${apiHost}/movie/subject/${id}`)
+export const getMovieById = id => axios.get(`${apiHost}/movie/subject/${id}`)
 
 export const getMovieRecommand = (id, start, count) => axios.get(`${apiHost}/movie/subject/${id}/recommands/`, { params: { start, count } })
 
@@ -25,6 +25,6 @@ export const register = (nickname, password) => axios.post(`${apiHost}/user`, { 
 
 export const getUser = () => axios.get(`${apiHost}/session`)
 
-export const addToFavorites = (movie) => axios.post(`${apiHost}/favorites`, { movie })
+export const addToFavorites = movie => axios.post(`${apiHost}/favorites`, { movie })
 
-export const removeFromFavorites = (movieId) => axios.delete(`${apiHost}/favorites/`, { params: { movieId } })
+export const removeFromFavorites = movieId => axios.delete(`${apiHost}/favorites/`, { params: { movieId } })

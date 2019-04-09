@@ -1,13 +1,27 @@
 <template>
   <div class="container">
-    <top-bar :class="[]" page-title="账号设置" hideSearch=true showBack=true></top-bar>
+    <top-bar
+      :class="[]"
+      page-title="账号设置"
+      hideSearch=true
+      showBack=true
+    ></top-bar>
     <div class="group">
       <dl class="row">
         <dt>头像</dt>
-        <dd><img v-if="user.avatar" class="user-avatar" :src="user.avatar" alt="">
-        <div class="user-avatar" v-else>
-          <font-awesome-icon :icon="['fas', 'user']" />
-        </div></dd>
+        <dd><img
+            v-if="user.avatar"
+            class="user-avatar"
+            :src="user.avatar"
+            alt=""
+          >
+          <div
+            class="user-avatar"
+            v-else
+          >
+            <font-awesome-icon :icon="['fas', 'user']" />
+          </div>
+        </dd>
       </dl>
       <dl class="row">
         <dt>昵称</dt>
@@ -23,7 +37,11 @@
     </div>
 
     <div class="group user-logout">
-      <a class="row user-logout" href="javascript:" @click="logout">退出登录</a>
+      <a
+        class="row user-logout"
+        href="javascript:"
+        @click="logout"
+      >退出登录</a>
     </div>
   </div>
 </template>
@@ -59,7 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/sass/var';
+@import "../assets/sass/var";
 
 .container {
   height: 100%;
@@ -96,7 +114,7 @@ dd {
   justify-content: flex-end;
   align-items: center;
   &::after {
-    content: '>';
+    content: ">";
     padding-left: 10px;
   }
 }
@@ -116,5 +134,4 @@ dd {
     color: #fff;
   }
 }
-
 </style>
