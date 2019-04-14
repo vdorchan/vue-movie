@@ -71,10 +71,10 @@
 </template>
 
 <script>
-import TopBar from '../components/TopBar'
-import Rating from '../components/Rating'
-import Loader from '../components/Loader'
-import { getInTheater, getComingSoon } from '../store/api.js'
+import TopBar from '@/components/TopBar'
+import Rating from '@/components/Rating'
+import Loader from '@/components/Loader'
+import { getInTheater, getComingSoon } from '@/store/api.js'
 import MescrollVue from 'mescroll.js/mescroll.vue'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
@@ -190,7 +190,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
 .container {
   position: absolute;
   width: 100%;

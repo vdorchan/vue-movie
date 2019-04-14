@@ -21,11 +21,34 @@
         placeholder="密码"
         v-model="password"
       >
+      <template v-if="!$route.meta.isLogin">
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          placeholder="邮箱"
+          v-model="email"
+        >
+        <div class="captcha-row">
+          <input
+            class="form-control"
+            type="captcha"
+            name="captcha"
+            placeholder="验证码,6666是万能"
+            v-model="captcha"
+          >
+          <a
+            class="captcha-button"
+            href="javascript:"
+            @click="sendCaptcha"
+          >{{captchaButtonLabel}}</a>
+        </div>
+      </template>
       <input
         class="form-submit"
         type="button"
         :value="$route.meta.isLogin?'登录':'注册'"
-        @click="submitForm({nickname, password, rt:$route.query.rt})"
+        @click="submitForm({email, nickname, password, captcha, rt:$route.query.rt})"
       >
     </form>
     <div class="form-link">
@@ -51,15 +74,19 @@
 </template>
 
 <script>
-import TopBar from '../components/TopBar'
-import BottomNav from '../components/BottomNav'
+import TopBar from '@/components/TopBar'
+import BottomNav from '@/components/BottomNav'
 import { mapActions } from 'vuex'
+import { sendCaptcha } from '@/store/api'
 
 export default {
   data () {
     return {
       nickname: '',
-      password: ''
+      password: '',
+      email: '',
+      captcha: '',
+      captchaButtonLabel: '发送验证码'
     }
   },
   created () {
@@ -68,13 +95,48 @@ export default {
   watch: {
     '$route' (to, from) {
       this.updateSubmitForm()
+      if (!to.meta.isLogin) {
+        this.nickname = ''
+        this.password = ''
+        this.email = ''
+        this.captcha = ''
+      }
     }
   },
   activated () { },
+  destroyed () {
+    clearInterval(this.captchaTimer)
+  },
   methods: {
     submitForm () { },
     updateSubmitForm () {
       this.submitForm = this.$route.meta.isLogin ? this.login : this.register
+    },
+    validEmail (email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(email)
+    },
+    async sendCaptcha () {
+      if (this.captchaSent) {
+        return
+      }
+      clearInterval(this.captchaTimer)
+
+      const { email } = this
+      if (!email || !this.validEmail(email)) return alert('邮箱格式不正确')
+      const { data } = await sendCaptcha(email)
+      if (data.success) {
+        alert('验证码发送成功')
+        this.captchaSent = true
+        let i = 60
+        this.captchaTimer = setInterval(() => {
+          this.captchaButtonLabel = --i
+          if (i <= 0) {
+            this.captchaButtonLabel = '发送验证码'
+            clearInterval(this.captchaTimer)
+          }
+        }, 1000)
+      }
     },
     ...mapActions([
       'login',
@@ -110,13 +172,15 @@ export default {
     padding: 6px 10px;
     margin-bottom: 10px;
     font-size: 18px;
-    line-height: 1.5;
+    height: 28px;
+    line-height: 28px;
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-sizing: border-box;
   }
   &-submit {
     display: block;
@@ -137,6 +201,23 @@ export default {
     a {
       color: #9f56dc;
     }
+  }
+}
+.captcha {
+  &-row {
+    display: flex;
+  }
+  &-button {
+    display: block;
+    margin-left: 10px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    width: 160px;
+    background: #9f56dc;
+    border-radius: 5px;
+    font-size: 0.8em;
+    text-decoration: none;
   }
 }
 </style>

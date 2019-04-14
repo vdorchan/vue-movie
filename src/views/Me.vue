@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="user-main">
-      <router-link :to="user ? 'setting' : 'login'">
+      <router-link :to="auth ? 'setting' : 'login'">
         <img
-          v-if="user && user.avatar"
+          v-if="auth"
           class="user-avatar"
           :src="user.avatar"
           alt=""
@@ -15,22 +15,22 @@
           <font-awesome-icon :icon="['fas', 'user']" />
         </div>
         <div>
-          <strong class="user-nickname">{{ user ? user.nickname : '未登录' }}</strong>
+          <strong class="user-nickname">{{ auth ? user.nickname : '点击头像登陆' }}</strong>
           <p
             class="user-id"
             v-if="user"
-          >ID: {{ user.id }}</p>
+          >Email: {{ user.email }}</p>
         </div>
       </router-link>
     </div>
     <div
       class="user-favorites"
-      v-if="user"
+      v-if="auth"
     >
-      <h3>喜欢的电影({{ $store.state.userInfo.favorites.length }}部)</h3>
-      <template v-if="$store.state.userInfo.favorites">
+      <h3>喜欢的电影({{ user.favorites.length }}部)</h3>
+      <template v-if="user.favorites">
         <router-link
-          v-for="movie in $store.state.userInfo.favorites"
+          v-for="movie in user.favorites"
           :to="'/movie/' + movie.id"
           :key="movie.id"
         >
@@ -51,25 +51,16 @@
 </template>
 
 <script>
-// import TopBar from '../components/TopBar'
-import BottomNav from '../components/BottomNav'
+// import TopBar from '@/components/TopBar'
+import BottomNav from '@/components/BottomNav'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { mapState } from 'vuex'
 
 export default {
-  data () {
-    return {
-      user: null
-    }
-  },
-  watch: {
-    '$store.state.userInfo' (to, from) {
-      this.user = this.$store.state.userInfo
-    }
-  },
-  created () {
-    this.user = this.$store.state.userInfo
-  },
-  activated () { },
+  computed: mapState([
+    'user',
+    'auth'
+  ]),
   methods: {},
   name: 'Me',
   components: {
@@ -80,7 +71,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
 .container {
   // position: absolute;
   // width: 100%;
@@ -97,6 +87,12 @@ export default {
     flex-direction: column;
     box-sizing: border-box;
     text-align: center;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
   &-avatar {
     display: flex;

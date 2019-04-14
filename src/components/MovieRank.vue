@@ -32,7 +32,7 @@
 
 <script>
 import Rating from './Rating.vue'
-import { getMovies } from '../store/api'
+import { getMovies } from '@/store/api'
 
 export default {
   data () {
@@ -67,12 +67,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
-
 .movie {
   &-list {
     display: inline-block;
     width: 100%;
+    min-height: 100px;
   }
   &-item {
     display: flex;

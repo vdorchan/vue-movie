@@ -29,7 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
 footer {
   display: flex;
   justify-content: space-around;

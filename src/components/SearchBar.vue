@@ -42,6 +42,7 @@
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { searchMovies } from '../store/api'
 import debounce from 'debounce'
+import MovieItem from '@/components/MovieItem'
 
 export default {
   data () {
@@ -51,11 +52,6 @@ export default {
       loading: true
     }
   },
-  // computed: {
-  //   async movies() {
-  //     return await searchMovies(searchWord, 0, 20)
-  //   }
-  // },
   watch: {
     searchWord () {
       this.debouncedSearchMovies()
@@ -69,11 +65,6 @@ export default {
     }
   },
   props: ['show'],
-  // data() {
-  //   return {
-  //     show: true
-  //   }
-  // },
   created () {
     this.debouncedSearchMovies = debounce(this.searchMovies, 500)
   },
@@ -87,14 +78,15 @@ export default {
     async searchMovies () {
       this.movies = []
       this.loading = true
-      const { data } = await searchMovies(this.searchWord, 0, 20)
+      const { data } = await searchMovies(this.searchWord, 0, 18)
       this.loading = false
 
       this.movies = data.subjects
     }
   },
   components: {
-    fontAwesomeIcon
+    fontAwesomeIcon,
+    MovieItem
   },
   directives: {
     focus: {

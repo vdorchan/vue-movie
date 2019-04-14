@@ -11,25 +11,38 @@
 
 <script>
 import BottomNav from './components/BottomNav'
+import { REFRESH_TOKEN } from '@/store/mutation-types'
 
 export default {
   name: 'App',
 
   data () {
     return {
-      transitionName: 'slide-fade',
-      isShowNav: true
+      transitionName: 'slide-fade'
+    }
+  },
+
+  computed: {
+    isShowNav () {
+      return !this.$route.meta.hideBottomNav
     }
   },
 
   created () {
-    this.$store.dispatch('getUser')
-  },
-
-  watch: {
-    '$route' (to, from) {
-      this.isShowNav = !to.matched.some(record => record.meta.hideBottomNav)
+    const token = localStorage.getItem('token')
+    if (token) {
+      this.$store.commit(REFRESH_TOKEN, { token })
+      this.$store.dispatch('getUser')
     }
+
+    this.axios.interceptors.response.use(res => {
+      const { token } = res.data
+      if (token) {
+        this.$store.commit(REFRESH_TOKEN, { token })
+      }
+
+      return res
+    }, error => Promise.reject(error))
   },
 
   components: {

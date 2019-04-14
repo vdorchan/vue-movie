@@ -41,8 +41,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
-
 .celebrities {
   &-list {
     padding: 10px 10px;

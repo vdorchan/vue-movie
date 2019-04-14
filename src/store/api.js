@@ -16,13 +16,15 @@ export const getComingSoon = (start, count) => axios.get(`${apiHost}/movie/comin
 
 export const searchMovies = (tag, start, count) => axios.get(`${apiHost}/movie/search`, { params: { start, count, tag } })
 
-export const login = (nickname, password) => axios.post(`${apiHost}/session`, { nickname, password })
+export const login = (nickname, password) => axios.post(`${apiHost}/auth/login`, { nickname, password })
 
 export const logout = (nickname, password) => axios.delete(`${apiHost}/session`)
 
-export const register = (nickname, password) => axios.post(`${apiHost}/user`, { nickname, password })
+export const register = (email, nickname, password, captcha) => axios.post(`${apiHost}/user`, { email, nickname, password, captcha })
 
-export const getUser = () => axios.get(`${apiHost}/session`)
+export const sendCaptcha = email => axios.post(`${apiHost}/user/captcha`, { email })
+
+export const getUser = () => axios.get(`${apiHost}/auth/profile`)
 
 export const addToFavorites = movie => axios.post(`${apiHost}/favorites`, { movie })
 

@@ -32,7 +32,7 @@
                 <font-awesome-icon
                   class="movie-collect"
                   :icon="['far', 'heart']"
-                  @click="addMovie"
+                  @click="collectMovie"
                   v-show="!isFavorite"
                 />
                 <font-awesome-icon
@@ -70,19 +70,14 @@
 </template>
 
 <script>
-import TopBar from '../components/TopBar'
-import CelebritiesList from '../components/CelebritiesList'
-import MovieRecommandList from '../components/MovieRecommandList'
-import { getMovieById } from '../store/api'
+import TopBar from '@/components/TopBar'
+import CelebritiesList from '@/components/CelebritiesList'
+import MovieRecommandList from '@/components/MovieRecommandList'
+import { getMovieById } from '@/store/api'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
-import {
-  ADD_TO_FAVORITES,
-  REMOVE_FROM_FAVORITES
-} from '../store/mutation-types.js'
-
 // const TopBar = () => ({
-//   component: import('../components/TopBar.vue'),
+//   component: import('@/components/TopBar.vue'),
 //   loading() {
 //     console.log('jj');
 //   },
@@ -100,19 +95,19 @@ export default {
     }
   },
   created () {
-    console.log('movie created')
     this.loadMovie()
+    this.routeName = this.$route.name
   },
-  activated () {
-    console.log('movie activated')
-    this.loadMovie()
+  watch: {
+    '$route' (to, from) {
+      if (to.name === this.routeName) {
+        this.loadMovie()
+      }
+    }
   },
   methods: {
     async loadMovie () {
-      if (this.loading) {
-        return
-      }
-      this.loading = true
+      console.log('load movie')
       this.movie = null
       const { data: movie } = await getMovieById(this.$route.params.id)
       this.movie = movie
@@ -121,19 +116,19 @@ export default {
     handleScroll (evt, el) {
       console.log(el.scrollTop)
     },
-    getAbsPoint (e) {
-      // 再封装个函数吧。传进来的e可以是字符串类型（即id）,也可以是htmlElement对象。觉得getEL是个累赘的话，就把它删除掉。
-      var x = e.offsetLeft
-      var y = e.offsetTop
-      while (e = e.offsetParent) {
-        x += e.offsetLeft
-        y += e.offsetTop
-      }
-      return {
-        'x': x,
-        'y': y
-      }
-    },
+    // getAbsPoint (e) {
+    //   // 再封装个函数吧。传进来的e可以是字符串类型（即id）,也可以是htmlElement对象。觉得getEL是个累赘的话，就把它删除掉。
+    //   var x = e.offsetLeft
+    //   var y = e.offsetTop
+    //   while (e = e.offsetParent) {
+    //     x += e.offsetLeft
+    //     y += e.offsetTop
+    //   }
+    //   return {
+    //     'x': x,
+    //     'y': y
+    //   }
+    // },
     bindScroll () {
       console.log(document.querySelector('h2'))
       const absY = this.getAbsPoint(document.querySelector('h2')).y
@@ -142,15 +137,20 @@ export default {
         this.showTitle = window.scrollY > absY
       }
     },
-    addMovie () {
-      // this.$store.commit(ADD_TO_FAVORITES, {movie: this.movie})
-      this.$store.dispatch('addToFavorites', { movie: this.movie })
+    async collectMovie () {
+      if (this.hasClickCollect) return
+      this.hasClickCollect = true
+      await this.$store.dispatch('addToFavorites', { movie: this.movie })
+      this.hasClickCollect = false
+      alert('收藏成功')
     },
-    removeMovie () {
-      // this.$store.commit(REMOVE_FROM_FAVORITES, {movieId: this.movie.id})
-      this.$store.dispatch('removeFromFavorites', { movieId: this.movie.id })
+    async removeMovie () {
+      if (this.hasClickCollect) return
+      this.hasClickCollect = true
+      await this.$store.dispatch('removeFromFavorites', { movieId: this.movie.id })
+      this.hasClickCollect = false
+      alert('移除收藏成功')
     }
-
   },
   components: {
     TopBar,
@@ -161,7 +161,7 @@ export default {
   computed: {
     isFavorite () {
       try {
-        return this.$store.state.userInfo.favorites.find(movie => movie.id === this.movie.id)
+        return this.$store.state.user.favorites.find(movie => movie.id === this.movie.id)
       } catch (err) {
         return false
       }
@@ -171,8 +171,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
-
 .container {
   padding-top: 0;
   padding-bottom: 50px;

@@ -47,27 +47,25 @@
 </template>
 
 <script>
-import TopBar from '../components/TopBar'
+import TopBar from '@/components/TopBar'
 import fontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import { logout } from '../store/api'
+import { mapMutations } from 'vuex'
+import { LOGOUT } from '@/store/mutation-types'
 
 export default {
   name: 'Setting',
   data () {
     return {}
   },
-  watch: {
-    '$store.state.userInfo' (to, from) {
-      this.user = this.$store.state.userInfo
+  computed: {
+    user () {
+      return this.$store.state.user
     }
-  },
-  created () {
-    this.user = this.$store.state.userInfo
   },
   methods: {
-    logout () {
-      logout()
-    }
+    ...mapMutations({
+      logout: LOGOUT
+    })
   },
   components: {
     TopBar,
@@ -77,8 +75,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/sass/var";
-
 .container {
   height: 100%;
   background: #eee;

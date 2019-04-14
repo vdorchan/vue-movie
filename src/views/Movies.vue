@@ -34,31 +34,25 @@
       </swiper>
     </section>
     <section class="movies-container">
+      <movie-list-row tag="豆瓣高分"></movie-list-row>
       <movie-list-row tag="经典"></movie-list-row>
-      <movie-list-row tag="经典"></movie-list-row>
-      <movie-list-row tag="经典"></movie-list-row>
-      <movie-list-row tag="经典"></movie-list-row>
-      <movie-list-row tag="经典"></movie-list-row>
+      <movie-list-row tag="科幻"></movie-list-row>
+      <movie-list-row tag="青春"></movie-list-row>
+      <movie-list-row tag="动画"></movie-list-row>
     </section>
   </div>
 </template>
 
 <script>
-import TopBar from '../components/TopBar'
-import BottomNav from '../components/BottomNav'
-import MovieRank from '../components/MovieRank'
-import MovieListRow from '../components/MovieListRow'
+import TopBar from '@/components/TopBar'
+import BottomNav from '@/components/BottomNav'
+import MovieRank from '@/components/MovieRank'
+import MovieListRow from '@/components/MovieListRow'
 
 export default {
   name: 'List',
   data () {
     return {}
-  },
-  watch: {
-    '$route.id' (to, from) {
-      console.log('kkk')
-      console.log(to, from)
-    }
   },
   components: {
     TopBar,
