@@ -117,23 +117,24 @@ export default {
       return re.test(email)
     },
     async sendCaptcha () {
-      if (this.captchaSent) {
+      if (this.captchaDisabled) {
         return
       }
       clearInterval(this.captchaTimer)
 
       const { email } = this
       if (!email || !this.validEmail(email)) return alert('邮箱格式不正确')
+      this.captchaDisabled = true
       const { data } = await sendCaptcha(email)
       if (data.success) {
         alert('验证码发送成功')
-        this.captchaSent = true
         let i = 60
         this.captchaTimer = setInterval(() => {
           this.captchaButtonLabel = --i
           if (i <= 0) {
             this.captchaButtonLabel = '发送验证码'
             clearInterval(this.captchaTimer)
+            this.captchaDisabled = false
           }
         }, 1000)
       }
