@@ -1,30 +1,12 @@
 # vue-movie
 
-> A Vue.js project
+> 一个电影 SPA，电影数据来自豆瓣，使用 travis CI 自动部署。 https://proj.vdorchan.com/vMovie
 
-## Build Setup
+## 技术栈
 
-``` bash
-# install dependencies
-npm install
+vue2 + vuex + vue-router + webpack + ES6/7 + axios + sass + flex + svg + travis
 
-# serve with hot reload at localhost:8080
-npm run dev
+## 部分截图
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+![preview](https://i.postimg.cc/XGkdzCmC/Xnip2019-04-16-00-03-37.png)
+![preview](https://i.postimg.cc/WqpgL4cf/Xnip2019-04-16-00-04-21.png)
