@@ -11,7 +11,7 @@ install:
 addons:
   ssh_known_hosts: vdorchan.com
 script:
-- rsync -avu --progress --delete dist/ root@vdorchan.com:/srv/www/proj.vdorchan.com/movie/
+- rsync -avu --progress --delete dist/ root@vdorchan.com:/srv/www/proj.vdorchan.com/vue-movie/
 before_install:
 - openssl aes-256-cbc -K $encrypted_0ad490829f5d_key -iv $encrypted_0ad490829f5d_iv
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
